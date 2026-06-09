@@ -64,9 +64,24 @@ export function FinalCta() {
               </a>
             </div>
 
-            <p className="relative mt-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-accent/60">
-              {company.mottoFull}
-            </p>
+            {/* Motto — styl identyczny jak w Hero */}
+            <div className="relative mt-8 flex justify-center">
+              <div
+                className="relative inline-block rounded-2xl p-px"
+                style={{ background: "linear-gradient(135deg, rgba(91,140,255,0.5), rgba(138,92,255,0.45), rgba(91,140,255,0.3))" }}
+              >
+                <div
+                  className="rounded-2xl px-6 py-3 text-center"
+                  style={{ background: "linear-gradient(135deg, rgba(91,140,255,0.09), rgba(6,6,10,0.85))", backdropFilter: "blur(8px)" }}
+                >
+                  <p className="text-[15px] font-semibold leading-snug text-fg sm:text-base">
+                    <span className="mr-1 font-serif text-xl leading-none text-accent/60" aria-hidden>&bdquo;</span>
+                    {t(T.footer.motto, lang)}
+                    <span className="ml-1 font-serif text-xl leading-none text-accent/60" aria-hidden>&rdquo;</span>
+                  </p>
+                </div>
+              </div>
+            </div>
             <p className="relative mt-2 text-xs text-fg-faint">{t(T.finalCtaSection.footer, lang)}</p>
           </div>
         </div>

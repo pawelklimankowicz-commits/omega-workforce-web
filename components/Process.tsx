@@ -4,7 +4,6 @@ import { Reveal } from "./Reveal";
 import { useLang } from "./LangProvider";
 import { T, t } from "@/lib/translations";
 import {
-  ArrowRight,
   PhoneCall,
   FileCheck2,
   Users,
@@ -359,16 +358,6 @@ export function Process() {
                     </div>
                   </div>
 
-                  {/* Strzałka między krokami (mobile) */}
-                  {!isLast && (
-                    <div className="ml-7 mt-1 flex justify-start pl-5">
-                      <ArrowRight
-                        className="h-4 w-4 -rotate-90 opacity-30"
-                        style={{ color: meta.accent }}
-                        aria-hidden
-                      />
-                    </div>
-                  )}
                 </Reveal>
               );
             })}

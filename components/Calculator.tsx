@@ -235,7 +235,7 @@ export function Calculator() {
                   </div>
 
                   <button onClick={() => setStep(1)} className="btn-primary w-full py-4 text-base">
-                    {t(T.calculator.nextIndustry, lang)} →
+                    {t(T.calculator.nextIndustry, lang)}
                   </button>
                 </div>
               )}
@@ -267,7 +267,7 @@ export function Calculator() {
                     <button onClick={() => setStep(0)} className="btn-ghost flex-1">{t(T.calculator.back, lang)}</button>
                     <button onClick={() => setStep(2)} disabled={!industry}
                       className="btn-primary flex-[2] disabled:opacity-40 disabled:cursor-not-allowed">
-                      {t(T.calculator.next, lang)} →
+                      {t(T.calculator.next, lang)}
                     </button>
                   </div>
                 </div>
@@ -307,7 +307,7 @@ export function Calculator() {
                   <div className="flex gap-3 pt-2">
                     <button onClick={() => setStep(1)} className="btn-ghost flex-1">{t(T.calculator.back, lang)}</button>
                     <button onClick={() => setStep(3)} className="btn-primary flex-[2]">
-                      {t(T.calculator.calc, lang)} →
+                      {t(T.calculator.calc, lang)}
                     </button>
                   </div>
                 </div>
@@ -396,7 +396,7 @@ export function Calculator() {
                   </p>
 
                   <button onClick={scrollToContact} className="btn-primary w-full py-4 text-base">
-                    {t(T.calculator.wantQuote, lang)} {workers} {t(T.calculator.workers2, lang)} →
+                    {t(T.calculator.wantQuote, lang)} {workers} {t(T.calculator.workers2, lang)}
                   </button>
 
                   <button onClick={() => { setStep(0); setIndustry(null); setDuration(6); }}

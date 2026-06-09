@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Menu, X, ShieldCheck, Phone, ArrowRight, Globe } from "lucide-react";
+import { Menu, X, ShieldCheck, Phone, Globe } from "lucide-react";
 import { company } from "@/lib/content";
 import { T, t } from "@/lib/translations";
 import { Logo } from "./Logo";
@@ -148,7 +148,6 @@ export function Nav() {
                 <a href={item.href} onClick={() => setOpen(false)}
                   className="flex items-center justify-between rounded-xl px-4 py-3.5 text-[15px] font-medium text-fg hover:bg-white/[0.06] transition-colors">
                   {item.label}
-                  <ArrowRight className="h-4 w-4 text-fg-faint" />
                 </a>
               </li>
             ))}

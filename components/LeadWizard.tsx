@@ -252,10 +252,10 @@ export function LeadWizard() {
               </div>
 
               <div className="flex gap-3">
-                <button type="button" onClick={back} className="btn-ghost flex-1">← Wróć</button>
+                <button type="button" onClick={back} className="btn-ghost flex-1">Wróć</button>
                 <button type="button" onClick={() => setStep(2)} disabled={!step1Valid}
                   className="btn-primary flex-[2] disabled:opacity-40 disabled:cursor-not-allowed">
-                  Dalej →
+                  Dalej
                 </button>
               </div>
             </div>
@@ -296,10 +296,10 @@ export function LeadWizard() {
               </div>
 
               <div className="flex gap-3">
-                <button type="button" onClick={back} className="btn-ghost flex-1">← Wróć</button>
+                <button type="button" onClick={back} className="btn-ghost flex-1">Wróć</button>
                 <button type="button" onClick={() => setStep(2)} disabled={!step1Valid}
                   className="btn-primary flex-[2] disabled:opacity-40 disabled:cursor-not-allowed">
-                  Dalej →
+                  Dalej
                 </button>
               </div>
             </div>
@@ -360,7 +360,7 @@ export function LeadWizard() {
               )}
 
               <div className="flex gap-3">
-                <button type="button" onClick={back} className="btn-ghost flex-1">← Wróć</button>
+                <button type="button" onClick={back} className="btn-ghost flex-1">Wróć</button>
                 <button type="button" onClick={submit} disabled={!step2Valid || status === "loading"}
                   className="btn-primary flex-[2] disabled:opacity-40 disabled:cursor-not-allowed"
                   aria-busy={status === "loading"}>
@@ -370,9 +370,9 @@ export function LeadWizard() {
                       Wysyłam…
                     </span>
                   ) : role === "firma" ? (
-                    "Zadzwońcie do mnie →"
+                    "Zadzwońcie do mnie"
                   ) : (
-                    "Pomóżcie mi znaleźć pracę →"
+                    "Pomóżcie mi znaleźć pracę"
                   )}
                 </button>
               </div>

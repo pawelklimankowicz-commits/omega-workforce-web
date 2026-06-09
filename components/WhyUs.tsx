@@ -28,7 +28,22 @@ export function WhyUs() {
       aria-labelledby="whyus-heading"
     >
       <Reveal className="mb-12 max-w-2xl">
-        <p className="section-label">{t(T.whyUsSection.label, lang)}</p>
+        {/* Nagłówek sekcji w stylu motto */}
+        <div className="mb-5 inline-block">
+          <div
+            className="relative inline-block rounded-2xl p-px"
+            style={{ background: "linear-gradient(135deg, rgba(91,140,255,0.5), rgba(138,92,255,0.45), rgba(91,140,255,0.3))" }}
+          >
+            <div
+              className="rounded-2xl px-5 py-2.5"
+              style={{ background: "linear-gradient(135deg, rgba(91,140,255,0.09), rgba(6,6,10,0.85))", backdropFilter: "blur(8px)" }}
+            >
+              <p className="text-[13px] font-semibold tracking-wide text-fg">
+                {t(T.whyUsSection.label, lang)}
+              </p>
+            </div>
+          </div>
+        </div>
         <h2
           id="whyus-heading"
           className="font-display text-3xl font-bold tracking-tight text-fg sm:text-4xl"
