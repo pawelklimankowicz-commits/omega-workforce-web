@@ -22,17 +22,32 @@ const INDUSTRIES: Array<{ key: IndustryKey; label: string; icon: string }> = [
   { key: "inne",        label: "Inna branża",   icon: "⚙️" },
 ];
 
-// Całkowity koszt dla pracodawcy per pracownik/miesiąc
-// (wynagrodzenie brutto + ZUS pracodawcy + obsługa Omega)
+// Całkowity koszt dla klienta per pracownik/miesiąc (bez VAT)
+// = wynagrodzenie brutto + ZUS pracodawcy + rezerwa urlopowa + obsługa Omega
+// Podstawa: płaca minimalna 2026 = 4 806 zł (Dz.U. 2025 poz. 1242)
+// ZUS pracodawcy: emerytalne 9,76% + rentowe 6,50% + FP 2,45% + FGŚP 0,10% + wypadkowe (wg PKD)
+// Marża Omega: 13–22% w zależności od branży (rynek APT Polska, czerwiec 2026)
 const BASE_COST: Record<IndustryKey, number> = {
-  produkcja:   5_400,
-  logistyka:   4_900,
-  budownictwo: 6_100,
-  handel:      4_500,
-  gastronomia: 4_300,
-  it:          9_800,
-  finanse:     7_400,
-  inne:        5_200,
+  produkcja:   8_100,   // brutto ~5 200 zł | ZUS 20,28% | marża 20%
+  logistyka:   8_300,   // brutto ~5 400 zł | ZUS 20,01% | marża 18%
+  budownictwo: 11_100,  // brutto ~7 000 zł | ZUS 19,74% | marża 20%
+  handel:      7_400,   // brutto ~4 900 zł | ZUS 19,74% | marża 16%
+  gastronomia: 7_200,   // brutto ~4 806 zł | ZUS 19,48% | marża 16%
+  it:          9_500,   // brutto ~6 500 zł | ZUS 19,48% | marża 13%
+  finanse:     10_400,  // brutto ~7 200 zł | ZUS 19,48% | marża 12%
+  inne:        7_800,   // brutto ~5 100 zł | ZUS 20,01% | marża 18%
+};
+
+// Szacunkowe wynagrodzenie brutto pracownika (do prezentacji podziału kosztów)
+const GROSS_EST: Record<IndustryKey, number> = {
+  produkcja:   5_200,
+  logistyka:   5_400,
+  budownictwo: 7_000,
+  handel:      4_900,
+  gastronomia: 4_806,
+  it:          6_500,
+  finanse:     7_200,
+  inne:        5_100,
 };
 
 const DURATION_DISCOUNT = { 3: 1.00, 6: 0.97, 12: 0.93 } as const;
@@ -54,14 +69,20 @@ export function Calculator() {
   const [duration, setDuration] = useState<3 | 6 | 12>(6);
 
   // Results (calculated only when step 3 is shown)
-  const base     = BASE_COST[industry ?? "inne"];
-  const disc     = DURATION_DISCOUNT[duration];
-  const monthly  = base * workers * disc;
-  const low      = snap(monthly * 0.94);
-  const high     = snap(monthly * 1.06);
-  const internal = snap(monthly * 1.28);
-  const savingsMo= snap(internal - monthly);
+  const base       = BASE_COST[industry ?? "inne"];
+  const grossEst   = GROSS_EST[industry ?? "inne"];
+  const disc       = DURATION_DISCOUNT[duration];
+  const monthly    = base * workers * disc;
+  const low        = snap(monthly * 0.94);
+  const high       = snap(monthly * 1.06);
+  // "Koszt własnego HR" — wynagrodzenia brutto + ZUS + koszty ukryte własnej rekrutacji
+  // (ogłoszenia, czas menedżerski, onboarding, rotacja ~30%/rok, dział HR)
+  // Szacunek +22% vs stawka Omega — rynek polskich APT, czerwiec 2026
+  const internal   = snap(monthly * 1.22);
+  const savingsMo  = snap(internal - monthly);
   const savingsTotal = snap(savingsMo * duration);
+  const perWorker  = snap(base * disc);
+  const hourlyRate = Math.round(base / 168);
 
   const selectedLabel = INDUSTRIES.find(i => i.key === industry)?.label ?? "";
 
@@ -274,8 +295,51 @@ export function Calculator() {
                       {fmt(low)}–{fmt(high)} zł
                     </p>
                     <p className="text-fg-faint text-xs mt-2">
-                      brutto (wynagrodzenie + ZUS + obsługa Omega Workforce)
+                      netto klienta (wynagrodzenie + ZUS + obsługa Omega) · bez VAT
                     </p>
+                  </div>
+
+                  {/* Per-worker breakdown */}
+                  <div className="rounded-xl px-5 py-4 space-y-3"
+                    style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)" }}>
+                    <p className="text-fg-faint text-xs font-semibold uppercase tracking-widest">Struktura kosztu / pracownik</p>
+                    <div className="space-y-2">
+                      {/* Gross bar */}
+                      {(() => {
+                        const grossPct = Math.round((grossEst / base) * 100);
+                        const zusPct   = Math.round(((base - grossEst - Math.round(grossEst * 0.10)) / base) * 100);
+                        const marginPct = 100 - grossPct - zusPct;
+                        return (
+                          <>
+                            <div className="flex items-center gap-3">
+                              <div className="w-28 shrink-0 text-[11px] text-fg-faint">Wynagrodzenie</div>
+                              <div className="flex-1 bg-white/5 rounded-full h-2 overflow-hidden">
+                                <div className="h-full rounded-full bg-accent/60" style={{ width: `${grossPct}%` }} />
+                              </div>
+                              <div className="w-20 text-right text-xs font-semibold text-fg">{fmt(grossEst)} zł</div>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <div className="w-28 shrink-0 text-[11px] text-fg-faint">ZUS + urlop</div>
+                              <div className="flex-1 bg-white/5 rounded-full h-2 overflow-hidden">
+                                <div className="h-full rounded-full bg-violet-400/50" style={{ width: `${zusPct}%` }} />
+                              </div>
+                              <div className="w-20 text-right text-xs font-semibold text-fg">{fmt(Math.round(grossEst * 0.305))} zł</div>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <div className="w-28 shrink-0 text-[11px] text-fg-faint">Obsługa Omega</div>
+                              <div className="flex-1 bg-white/5 rounded-full h-2 overflow-hidden">
+                                <div className="h-full rounded-full bg-signal/50" style={{ width: `${marginPct}%` }} />
+                              </div>
+                              <div className="w-20 text-right text-xs font-semibold text-fg">{fmt(base - grossEst - Math.round(grossEst * 0.305))} zł</div>
+                            </div>
+                          </>
+                        );
+                      })()}
+                    </div>
+                    <div className="flex items-center justify-between pt-1 border-t border-white/[0.06]">
+                      <span className="text-[11px] text-fg-faint">Na pracownika / miesiąc</span>
+                      <span className="text-sm font-bold text-fg">{fmt(perWorker)} zł · {hourlyRate} zł/h</span>
+                    </div>
                   </div>
 
                   {/* Secondary metrics */}
@@ -286,7 +350,7 @@ export function Calculator() {
                       <p className="text-fg-faint text-[11px]">vs. ~4 tygodnie własny HR</p>
                     </div>
                     <div className="glass rounded-xl p-4 space-y-1">
-                      <p className="text-fg-faint text-xs">Oszczędność vs. własny HR</p>
+                      <p className="text-fg-faint text-xs">Oszczędność vs. własny HR*</p>
                       <p className="text-2xl font-black" style={{ color: "#34D39A" }}>+{fmt(savingsMo)} zł</p>
                       <p className="text-fg-faint text-[11px]">miesięcznie</p>
                     </div>
@@ -294,13 +358,13 @@ export function Calculator() {
                       <p className="text-fg-faint text-xs">Łączna oszczędność przez {DURATION_LABEL[duration]}</p>
                       <div className="flex items-baseline gap-3">
                         <p className="text-3xl font-black" style={{ color: "#34D39A" }}>{fmt(savingsTotal)} zł</p>
-                        <p className="text-fg-muted text-sm">przy przejściu z własnego działu HR</p>
+                        <p className="text-fg-muted text-sm">vs. własny dział rekrutacji</p>
                       </div>
                     </div>
                   </div>
 
                   <p className="text-fg-faint text-xs text-center leading-relaxed">
-                    * Szacunek oparty na średnich kosztach rynkowych 2024–2025. Dokładna wycena po bezpłatnej konsultacji uwzględnia Twoją lokalizację, wymagania i skalę.
+                    * Szacunek oparty na danych rynku pracy czerwiec 2026 (płaca minimalna 4 806 zł, składki ZUS wg Dz.U. 2025 poz. 1242). Oszczędność vs. własny HR uwzględnia koszty rekrutacji, onboardingu, rotacji ~30%/rok i działu kadr. Dokładna wycena po bezpłatnej konsultacji.
                   </p>
 
                   <button onClick={scrollToContact} className="btn-primary w-full py-4 text-base">
