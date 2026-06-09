@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Menu, X, ShieldCheck, Phone, ArrowRight, Globe } from "lucide-react";
 import { company, nav } from "@/lib/content";
 import { Logo } from "./Logo";
+import Image from "next/image";
 
 type Lang = "PL" | "UA";
 
@@ -90,7 +91,7 @@ export function Nav() {
             aria-label={`${company.name} — strona główna`}
             className="z-50 shrink-0 rounded-lg outline-none"
           >
-            <Logo />
+            <Logo variant="horizontal" height={38} />
           </a>
 
           <ul className="hidden items-center gap-0.5 lg:flex" role="list">
@@ -146,7 +147,9 @@ export function Nav() {
           open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
-        <div className="h-16 md:h-[4.75rem]" aria-hidden />
+        <div className="h-16 md:h-[4.75rem] flex items-center px-5" aria-hidden>
+          <Logo variant="horizontal" height={34} />
+        </div>
         <div className="flex-1 overflow-y-auto px-5 pt-4 pb-10">
           {/* Lang mobile */}
           <div className="mb-6 flex items-center gap-2">

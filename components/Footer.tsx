@@ -15,7 +15,7 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-[1.6fr_1fr_1fr_1.1fr]">
           {/* Kolumna 1 — marka + legal */}
           <div>
-            <Logo />
+            <Logo variant="horizontal" height={36} />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-fg-muted">
               {company.tagline}. Pośrednictwo pracy, leasing pracowniczy, outsourcing
               i obsługa cudzoziemców — legalnie, szybko i transparentnie.

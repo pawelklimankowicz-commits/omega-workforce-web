@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Image from "next/image";
 import { loginAction } from "./actions";
 
 const DEMO_ACCOUNTS = [
@@ -47,14 +48,17 @@ export default function LoginPage() {
       <div className="relative w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <a href="/" className="inline-flex flex-col items-center gap-2">
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-black text-white"
-              style={{ background: "linear-gradient(135deg, #5B8CFF, #8A5CFF)" }}>
-              Ω
-            </div>
-            <span className="text-lg font-extrabold text-fg tracking-tight">Omega Workforce</span>
+          <a href="/" className="inline-flex flex-col items-center gap-3">
+            <Image
+              src="/logo-icon.png"
+              alt="Omega Workforce"
+              width={100}
+              height={100}
+              priority
+              className="rounded-2xl"
+            />
           </a>
-          <p className="text-fg-muted text-sm mt-2">Panel operacyjny</p>
+          <p className="text-fg-muted text-sm mt-3">Panel operacyjny</p>
         </div>
 
         {/* Card */}

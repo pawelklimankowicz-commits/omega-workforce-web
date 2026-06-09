@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { logoutAction } from "@/app/login/actions";
 import type { UserRole } from "@/lib/types/dashboard";
@@ -63,17 +65,18 @@ export function Sidebar({ role, userName, userEmail, onClose }: Props) {
   const SidebarContent = () => (
     <nav className="flex flex-col h-full" aria-label="Nawigacja panelu">
       {/* Logo */}
-      <div className="flex items-center gap-3 px-5 py-5 border-b border-white/8">
-        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black text-white flex-shrink-0"
-          style={{ background: "linear-gradient(135deg, #5B8CFF, #8A5CFF)" }}>
-          Ω
-        </div>
-        <div className="min-w-0">
-          <p className="text-sm font-extrabold text-fg leading-tight truncate">Omega Workforce</p>
-          <p className="text-[10px] text-fg-faint">
-            {role === "firma" ? "Panel firmy" : role === "pracownik" ? "Panel pracownika" : "Admin"}
-          </p>
-        </div>
+      <div className="flex flex-col gap-1 px-4 py-4 border-b border-white/8">
+        <Image
+          src="/logo-horizontal.png"
+          alt="Omega Workforce"
+          width={180}
+          height={34}
+          priority
+          className="object-contain object-left"
+        />
+        <p className="text-[10px] text-fg-faint pl-0.5">
+          {role === "firma" ? "Panel firmy B2B" : role === "pracownik" ? "Panel pracownika" : "Panel admina"}
+        </p>
       </div>
 
       {/* Nav items */}
