@@ -2,22 +2,33 @@
 
 import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
-import { faqs } from "@/lib/content";
+import { useLang } from "./LangProvider";
+import { T, t } from "@/lib/translations";
 import { Reveal } from "./Reveal";
 
 export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
+  const { lang } = useLang();
+
+  const faqs = [
+    { q: t(T.faqSection.q1, lang), a: t(T.faqSection.a1, lang) },
+    { q: t(T.faqSection.q2, lang), a: t(T.faqSection.a2, lang) },
+    { q: t(T.faqSection.q3, lang), a: t(T.faqSection.a3, lang) },
+    { q: t(T.faqSection.q4, lang), a: t(T.faqSection.a4, lang) },
+    { q: t(T.faqSection.q5, lang), a: t(T.faqSection.a5, lang) },
+    { q: t(T.faqSection.q6, lang), a: t(T.faqSection.a6, lang) },
+  ];
 
   return (
     <section id="faq" className="container-x py-20 md:py-28">
       <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
         <Reveal>
-          <span className="section-label">FAQ</span>
+          <span className="section-label">{t(T.faqSection.label, lang)}</span>
           <h2 className="font-display text-3xl font-bold tracking-tight text-fg sm:text-4xl">
-            Najczęstsze pytania firm i kandydatów.
+            {t(T.faqSection.heading, lang)}
           </h2>
           <p className="mt-4 text-fg-muted">
-            Nie znalazłeś odpowiedzi? Napisz — odpowiadamy w ciągu jednego dnia roboczego.
+            {t(T.faqSection.sub, lang)}
           </p>
         </Reveal>
 
@@ -26,7 +37,7 @@ export function Faq() {
             {faqs.map((f, i) => {
               const isOpen = open === i;
               return (
-                <li key={f.q} className="bg-white/[0.015]">
+                <li key={i} className="bg-white/[0.015]">
                   <button
                     onClick={() => setOpen(isOpen ? null : i)}
                     aria-expanded={isOpen}

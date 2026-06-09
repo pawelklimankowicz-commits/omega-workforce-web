@@ -1,5 +1,8 @@
+"use client";
+
 import { Users, Repeat, Boxes, Globe, Check } from "lucide-react";
-import { services } from "@/lib/content";
+import { useLang } from "./LangProvider";
+import { T, t } from "@/lib/translations";
 import { Reveal } from "./Reveal";
 
 type ServiceId = "posrednictwo" | "leasing" | "outsourcing" | "ukraina";
@@ -37,24 +40,68 @@ const serviceConfig: Record<ServiceId, {
 };
 
 export function Services() {
+  const { lang } = useLang();
+
+  const serviceData = [
+    {
+      id:     "posrednictwo" as ServiceId,
+      title:  t(T.servicesItems.s1title, lang),
+      desc:   t(T.servicesItems.s1desc, lang),
+      points: [
+        t(T.servicesItems.s1p1, lang),
+        t(T.servicesItems.s1p2, lang),
+        t(T.servicesItems.s1p3, lang),
+      ],
+    },
+    {
+      id:     "leasing" as ServiceId,
+      title:  t(T.servicesItems.s2title, lang),
+      desc:   t(T.servicesItems.s2desc, lang),
+      points: [
+        t(T.servicesItems.s2p1, lang),
+        t(T.servicesItems.s2p2, lang),
+        t(T.servicesItems.s2p3, lang),
+      ],
+    },
+    {
+      id:     "outsourcing" as ServiceId,
+      title:  t(T.servicesItems.s3title, lang),
+      desc:   t(T.servicesItems.s3desc, lang),
+      points: [
+        t(T.servicesItems.s3p1, lang),
+        t(T.servicesItems.s3p2, lang),
+        t(T.servicesItems.s3p3, lang),
+      ],
+    },
+    {
+      id:     "ukraina" as ServiceId,
+      title:  t(T.servicesItems.s4title, lang),
+      desc:   t(T.servicesItems.s4desc, lang),
+      points: [
+        t(T.servicesItems.s4p1, lang),
+        t(T.servicesItems.s4p2, lang),
+        t(T.servicesItems.s4p3, lang),
+      ],
+    },
+  ];
+
   return (
     <section id="uslugi" className="container-x py-20 md:py-28" aria-labelledby="services-heading">
       <Reveal className="mb-12">
-        <p className="section-label">Usługi dla firm</p>
+        <p className="section-label">{t(T.servicesSection.label, lang)}</p>
         <h2 id="services-heading" className="font-display text-3xl font-bold tracking-tight text-fg sm:text-4xl max-w-2xl">
-          Cztery modele współpracy.
+          {t(T.servicesSection.heading1, lang)}
           <br />
-          <span className="text-gradient">Jeden punkt odpowiedzialności.</span>
+          <span className="text-gradient">{t(T.servicesSection.heading2, lang)}</span>
         </h2>
         <p className="mt-4 max-w-xl text-[15px] text-fg-muted">
-          Dobierzemy rozwiązanie do skali, ryzyka i specyfiki Twojego biznesu —
-          od pojedynczych rekrutacji po przejęcie całego procesu z SLA.
+          {t(T.servicesSection.sub, lang)}
         </p>
       </Reveal>
 
       <div className="grid gap-5 md:grid-cols-2">
-        {services.map((s, i) => {
-          const cfg = serviceConfig[s.id as ServiceId];
+        {serviceData.map((s, i) => {
+          const cfg = serviceConfig[s.id];
           return (
             <Reveal key={s.id} delay={i * 80}>
               <article className="glass glass-hover group relative flex h-full flex-col overflow-hidden rounded-3xl p-7 md:p-8">
@@ -88,9 +135,9 @@ export function Services() {
                 <a
                   href="#kontakt"
                   className="mt-auto pt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-fg-muted transition-colors group-hover:text-fg"
-                  aria-label={`Zapytaj o usługę: ${s.title}`}
+                  aria-label={`${t(T.servicesSection.cta, lang)}: ${s.title}`}
                 >
-                  Zapytaj o tę usługę
+                  {t(T.servicesSection.cta, lang)}
                 </a>
               </article>
             </Reveal>

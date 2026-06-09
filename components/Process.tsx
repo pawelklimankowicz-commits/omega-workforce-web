@@ -1,5 +1,8 @@
-import { process } from "@/lib/content";
+"use client";
+
 import { Reveal } from "./Reveal";
+import { useLang } from "./LangProvider";
+import { T, t } from "@/lib/translations";
 import {
   ArrowRight,
   PhoneCall,
@@ -9,20 +12,16 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-// ─── Per-step enrichment ──────────────────────────────────────────────────────
+// ─── Per-step visual config (static, no translations) ────────────────────────
 
-const STEP_META = [
+const STEP_VISUAL = [
   {
     Icon:        PhoneCall,
     accent:      "#5B8CFF",
     glowColor:   "rgba(91,140,255,0.28)",
     borderColor: "rgba(91,140,255,0.35)",
     bgColor:     "rgba(91,140,255,0.07)",
-    deliverables: [
-      "Analiza potrzeb kadrowych",
-      "Dobór modelu współpracy",
-      "Orientacyjna wycena online",
-    ],
+    stepNum:     "01",
   },
   {
     Icon:        FileCheck2,
@@ -30,11 +29,7 @@ const STEP_META = [
     glowColor:   "rgba(138,92,255,0.28)",
     borderColor: "rgba(138,92,255,0.35)",
     bgColor:     "rgba(138,92,255,0.07)",
-    deliverables: [
-      "Wycena z podziałem kosztów",
-      "Wzór umowy do wglądu",
-      "Harmonogram wdrożenia",
-    ],
+    stepNum:     "02",
   },
   {
     Icon:        Users,
@@ -42,11 +37,7 @@ const STEP_META = [
     glowColor:   "rgba(52,211,154,0.28)",
     borderColor: "rgba(52,211,154,0.35)",
     bgColor:     "rgba(52,211,154,0.07)",
-    deliverables: [
-      "Zweryfikowani kandydaci",
-      "Pełna legalizacja pobytu i pracy",
-      "Szkolenie BHP + onboarding",
-    ],
+    stepNum:     "03",
   },
   {
     Icon:        Headphones,
@@ -54,17 +45,62 @@ const STEP_META = [
     glowColor:   "rgba(255,180,84,0.28)",
     borderColor: "rgba(255,180,84,0.35)",
     bgColor:     "rgba(255,180,84,0.07)",
-    deliverables: [
-      "Dedykowany koordynator",
-      "Raporty frekwencji i rotacji",
-      "Szybka reakcja na zmiany skali",
-    ],
+    stepNum:     "04",
   },
 ] as const;
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export function Process() {
+  const { lang } = useLang();
+
+  const processSteps = [
+    {
+      stepNum:     "01",
+      time:        t(T.processSection.step1Time, lang),
+      title:       t(T.processSection.step1Title, lang),
+      desc:        t(T.processSection.step1Desc, lang),
+      deliverables: [
+        t(T.processSection.step1d1, lang),
+        t(T.processSection.step1d2, lang),
+        t(T.processSection.step1d3, lang),
+      ],
+    },
+    {
+      stepNum:     "02",
+      time:        t(T.processSection.step2Time, lang),
+      title:       t(T.processSection.step2Title, lang),
+      desc:        t(T.processSection.step2Desc, lang),
+      deliverables: [
+        t(T.processSection.step2d1, lang),
+        t(T.processSection.step2d2, lang),
+        t(T.processSection.step2d3, lang),
+      ],
+    },
+    {
+      stepNum:     "03",
+      time:        t(T.processSection.step3Time, lang),
+      title:       t(T.processSection.step3Title, lang),
+      desc:        t(T.processSection.step3Desc, lang),
+      deliverables: [
+        t(T.processSection.step3d1, lang),
+        t(T.processSection.step3d2, lang),
+        t(T.processSection.step3d3, lang),
+      ],
+    },
+    {
+      stepNum:     "04",
+      time:        t(T.processSection.step4Time, lang),
+      title:       t(T.processSection.step4Title, lang),
+      desc:        t(T.processSection.step4Desc, lang),
+      deliverables: [
+        t(T.processSection.step4d1, lang),
+        t(T.processSection.step4d2, lang),
+        t(T.processSection.step4d3, lang),
+      ],
+    },
+  ];
+
   return (
     <section
       id="proces"
@@ -87,18 +123,17 @@ export function Process() {
 
         {/* ── Heading ── */}
         <Reveal className="mb-16 max-w-2xl">
-          <p className="section-label">Jak działamy</p>
+          <p className="section-label">{t(T.processSection.label, lang)}</p>
           <h2
             id="process-heading"
             className="font-display text-3xl font-bold tracking-tight text-fg sm:text-4xl"
           >
-            Od briefu do ludzi na hali —
+            {t(T.processSection.heading1, lang)}
             <br />
-            <span className="text-gradient">w&nbsp;dni, nie tygodnie.</span>
+            <span className="text-gradient">{t(T.processSection.heading2, lang)}</span>
           </h2>
           <p className="mt-4 text-[15px] leading-relaxed text-fg-muted">
-            Przejrzysty proces z konkretnymi terminami. Wiesz, co dzieje się
-            na każdym etapie — zero czarnych skrzynek, zero niespodzianek.
+            {t(T.processSection.sub, lang)}
           </p>
         </Reveal>
 
@@ -110,7 +145,7 @@ export function Process() {
           {/* Górna szyna z kółkami i łącznikami */}
           <div className="relative mb-8">
 
-            {/* Linia łącząca — dokładnie w środku kółek (h-14 = 3.5rem → środek = top-7) */}
+            {/* Linia łącząca */}
             <div
               className="absolute left-[calc(12.5%+0px)] right-[calc(12.5%+0px)] top-7 h-px"
               style={{
@@ -122,11 +157,11 @@ export function Process() {
 
             {/* Kółka kroków */}
             <div className="grid grid-cols-4">
-              {process.map((step, i) => {
-                const meta = STEP_META[i];
+              {processSteps.map((step, i) => {
+                const meta = STEP_VISUAL[i];
                 const Icon = meta.Icon;
                 return (
-                  <div key={step.step} className="flex flex-col items-center">
+                  <div key={step.stepNum} className="flex flex-col items-center">
                     {/* Kółko */}
                     <Reveal delay={i * 80}>
                       <div className="relative flex h-14 w-14 items-center justify-center">
@@ -159,7 +194,7 @@ export function Process() {
                             color:      "#06060A",
                           }}
                         >
-                          {step.step}
+                          {step.stepNum}
                         </span>
                       </div>
                     </Reveal>
@@ -185,10 +220,10 @@ export function Process() {
 
           {/* Karty treści pod szyną */}
           <div className="grid grid-cols-4 gap-4">
-            {process.map((step, i) => {
-              const meta = STEP_META[i];
+            {processSteps.map((step, i) => {
+              const meta = STEP_VISUAL[i];
               return (
-                <Reveal key={step.step} delay={i * 90 + 60}>
+                <Reveal key={step.stepNum} delay={i * 90 + 60}>
                   <div
                     className="flex h-full flex-col rounded-2xl p-5 transition-transform duration-300 hover:-translate-y-1"
                     style={{
@@ -206,7 +241,7 @@ export function Process() {
 
                     {/* Deliverables checklist */}
                     <ul className="mt-4 space-y-1.5" role="list">
-                      {meta.deliverables.map((item) => (
+                      {step.deliverables.map((item) => (
                         <li key={item} className="flex items-start gap-2">
                           <CheckCircle2
                             className="mt-0.5 h-3.5 w-3.5 shrink-0"
@@ -240,13 +275,13 @@ export function Process() {
           />
 
           <div className="space-y-6">
-            {process.map((step, i) => {
-              const meta = STEP_META[i];
+            {processSteps.map((step, i) => {
+              const meta = STEP_VISUAL[i];
               const Icon = meta.Icon;
-              const isLast = i === process.length - 1;
+              const isLast = i === processSteps.length - 1;
 
               return (
-                <Reveal key={step.step} delay={i * 80}>
+                <Reveal key={step.stepNum} delay={i * 80}>
                   <div className="relative flex gap-5">
 
                     {/* Kółko na linii */}
@@ -276,7 +311,7 @@ export function Process() {
                         className="absolute -top-2 -right-1 z-20 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-black"
                         style={{ background: meta.accent, color: "#06060A" }}
                       >
-                        {step.step}
+                        {step.stepNum}
                       </span>
                     </div>
 
@@ -310,7 +345,7 @@ export function Process() {
 
                       {/* Deliverables */}
                       <ul className="mt-3 space-y-1.5" role="list">
-                        {meta.deliverables.map((item) => (
+                        {step.deliverables.map((item) => (
                           <li key={item} className="flex items-start gap-2">
                             <CheckCircle2
                               className="mt-0.5 h-3.5 w-3.5 shrink-0"
@@ -345,26 +380,26 @@ export function Process() {
           {/* Stats row */}
           <div className="flex flex-wrap justify-center gap-6 text-sm text-fg-faint">
             <span>
-              <strong className="text-fg">97%</strong> klientów poleca nas dalej
+              <strong className="text-fg">97%</strong>{" "}{t(T.processSection.bottomStat1, lang)}
             </span>
             <span className="hidden sm:inline text-white/20">·</span>
             <span>
-              Pierwsi kandydaci w{" "}
-              <strong className="text-fg">7 dni</strong>
+              {t(T.processSection.bottomStat2, lang)}{" "}
+              <strong className="text-fg">7 {lang === "PL" ? "dni" : "днів"}</strong>
             </span>
             <span className="hidden sm:inline text-white/20">·</span>
             <span>
-              Odpowiedź w{" "}
-              <strong className="text-fg">3,5 godz.</strong>
+              {t(T.processSection.bottomStat3, lang)}{" "}
+              <strong className="text-fg">3,5 {lang === "PL" ? "godz." : "год."}</strong>
             </span>
           </div>
 
           <a href="#kontakt" className="btn-primary inline-flex text-base px-8 py-3.5">
-            Zacznij teraz — wycena bezpłatna
+            {t(T.processSection.ctaBtn, lang)}
           </a>
 
           <p className="text-xs text-fg-faint">
-            Bez rejestracji · Bez zobowiązań · Odpowiedź w 24 h
+            {t(T.processSection.ctaNote, lang)}
           </p>
         </Reveal>
       </div>

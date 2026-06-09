@@ -1,5 +1,9 @@
+"use client";
+
 import { Globe, FileCheck2, Home, Languages, ShieldCheck } from "lucide-react";
-import { ukraineSection, ukraineBenefits, ukraineCandidateMessage } from "@/lib/content";
+import { company } from "@/lib/content";
+import { useLang } from "./LangProvider";
+import { T, t } from "@/lib/translations";
 import { Reveal } from "./Reveal";
 
 const icons: React.ReactNode[] = [
@@ -10,6 +14,15 @@ const icons: React.ReactNode[] = [
 ];
 
 export function Ukraine() {
+  const { lang } = useLang();
+
+  const benefits = [
+    { title: t(T.ukrSec.b1title, lang), desc: t(T.ukrSec.b1desc, lang) },
+    { title: t(T.ukrSec.b2title, lang), desc: t(T.ukrSec.b2desc, lang) },
+    { title: t(T.ukrSec.b3title, lang), desc: t(T.ukrSec.b3desc, lang) },
+    { title: t(T.ukrSec.b4title, lang), desc: t(T.ukrSec.b4desc, lang) },
+  ];
+
   return (
     <section
       id="ukraina"
@@ -34,58 +47,62 @@ export function Ukraine() {
           <div className="grid gap-10 p-8 md:p-12 lg:grid-cols-[1.1fr_1fr] lg:items-start">
             {/* Lewa kolumna */}
             <div>
-              <p className="section-label-amber">{ukraineSection.sectionLabel}</p>
+              <p className="section-label-amber">{t(T.ukrSec.sectionLabel, lang)}</p>
               <h2
                 id="ukraine-heading"
                 className="font-display text-3xl font-bold tracking-tight text-fg sm:text-4xl"
               >
-                {ukraineSection.heading}
+                {t(T.ukrSec.heading, lang)}
                 <br />
-                <span className="text-gradient-amber">{ukraineSection.headingAccent}</span>
+                <span className="text-gradient-amber">{t(T.ukrSec.headingAccent, lang)}</span>
                 <br />
-                {ukraineSection.headingSuffix}
+                {t(T.ukrSec.headingSuffix, lang)}
               </h2>
 
               <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-fg-muted">
-                {ukraineSection.subB2B}
+                {t(T.ukrSec.subB2B, lang)}
               </p>
 
               {/* Komunikat dla kandydatów UA — bilingual */}
               <div className="mt-5 rounded-xl border border-amber/15 bg-amber/[0.05] p-4">
                 <p className="text-[13px] leading-relaxed text-fg-muted">
-                  <span className="font-semibold text-amber">🇺🇦 Для кандидатів:</span>
+                  <span className="font-semibold text-amber">{t(T.ukrSec.candLabel, lang)}</span>
                   <br />
-                  {ukraineCandidateMessage.ua}
+                  {t(T.ukrSec.candMsgUA, lang)}
                 </p>
-                <p className="mt-2 text-[12px] text-fg-faint italic">
-                  {ukraineCandidateMessage.pl}
-                </p>
+                {lang === "PL" && (
+                  <p className="mt-2 text-[12px] text-fg-faint italic">
+                    {T.ukrSec.candMsgUA.PL}
+                  </p>
+                )}
               </div>
 
               {/* Legal badge */}
               <div className="mt-5 inline-flex items-center gap-2 rounded-xl border border-signal/20 bg-signal/10 px-4 py-2.5">
                 <ShieldCheck className="h-4 w-4 text-signal" aria-hidden />
-                <span className="text-xs font-semibold text-fg">{ukraineSection.legalBadge}</span>
+                <span className="text-xs font-semibold text-fg">
+                  {t(T.ukrSec.legalBadge, lang)} {company.kraz}
+                </span>
               </div>
 
               {/* CTAs */}
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <a href="#kontakt" className="btn-primary">
-                  {ukraineSection.ctaB2B}
+                  {t(T.ukrSec.ctaB2B, lang)}
                 </a>
                 <a
                   href="#kontakt"
                   className="btn-ghost !border-amber/30 !text-amber hover:!bg-amber/10"
                   lang="uk"
                 >
-                  {ukraineSection.ctaUA}
+                  {t(T.ukrSec.ctaUA, lang)}
                 </a>
               </div>
             </div>
 
             {/* Prawa kolumna — benefity */}
             <div className="grid gap-4 sm:grid-cols-2">
-              {ukraineBenefits.map((b, i) => (
+              {benefits.map((b, i) => (
                 <div
                   key={b.title}
                   className="flex flex-col rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5 transition-colors hover:border-amber/25 hover:bg-amber/[0.04]"

@@ -1,10 +1,14 @@
+"use client";
+
 import { Phone } from "lucide-react";
-import { finalCta, company } from "@/lib/content";
+import { company } from "@/lib/content";
+import { useLang } from "./LangProvider";
+import { T, t } from "@/lib/translations";
 import { Reveal } from "./Reveal";
 
-const copy = finalCta;
-
 export function FinalCta() {
+  const { lang } = useLang();
+
   return (
     <section
       className="container-x py-20 md:py-28"
@@ -29,19 +33,19 @@ export function FinalCta() {
               aria-hidden
             />
 
-            <p className="section-label justify-center">{copy.sectionLabel}</p>
+            <p className="section-label justify-center">{t(T.finalCtaSection.label, lang)}</p>
 
             <h2
               id="final-cta-heading"
               className="relative font-display text-3xl font-bold tracking-tight text-fg sm:text-4xl md:text-[2.8rem]"
             >
-              {copy.heading}
+              {t(T.finalCtaSection.heading, lang)}
               <br className="hidden sm:block" />
-              <span className="text-gradient">{copy.headingAccent}</span>
+              <span className="text-gradient">{t(T.finalCtaSection.accent, lang)}</span>
             </h2>
 
             <p className="relative mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-fg-muted">
-              {copy.sub}
+              {t(T.finalCtaSection.sub, lang)}
             </p>
 
             <div className="relative mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -49,21 +53,21 @@ export function FinalCta() {
                 href="#kontakt"
                 className="btn-primary !px-8 !py-3.5 !text-sm w-full justify-center sm:w-auto"
               >
-                {copy.ctaPrimary}
+                {t(T.finalCtaSection.ctaPrimary, lang)}
               </a>
               <a
-                href={`tel:${copy.ctaPhone.replace(/\s/g, "")}`}
+                href={`tel:${company.phone.replace(/\s/g, "")}`}
                 className="btn-ghost !px-6 !py-3.5 !text-sm w-full justify-center sm:w-auto"
               >
                 <Phone className="h-4 w-4" aria-hidden />
-                {copy.ctaPhone}
+                {company.phone}
               </a>
             </div>
 
             <p className="relative mt-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-accent/60">
               {company.mottoFull}
             </p>
-            <p className="relative mt-2 text-xs text-fg-faint">{copy.footer}</p>
+            <p className="relative mt-2 text-xs text-fg-faint">{t(T.finalCtaSection.footer, lang)}</p>
           </div>
         </div>
       </Reveal>

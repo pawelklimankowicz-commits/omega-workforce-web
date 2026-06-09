@@ -1,5 +1,8 @@
+"use client";
+
 import { ShieldCheck, Zap, UserCog, Receipt } from "lucide-react";
-import { whyUs } from "@/lib/content";
+import { useLang } from "./LangProvider";
+import { T, t } from "@/lib/translations";
 import { Reveal } from "./Reveal";
 
 const config = [
@@ -10,28 +13,36 @@ const config = [
 ];
 
 export function WhyUs() {
+  const { lang } = useLang();
+
+  const whyUsData = [
+    { title: t(T.whyUsSection.w1title, lang), desc: t(T.whyUsSection.w1desc, lang) },
+    { title: t(T.whyUsSection.w2title, lang), desc: t(T.whyUsSection.w2desc, lang) },
+    { title: t(T.whyUsSection.w3title, lang), desc: t(T.whyUsSection.w3desc, lang) },
+    { title: t(T.whyUsSection.w4title, lang), desc: t(T.whyUsSection.w4desc, lang) },
+  ];
+
   return (
     <section
       className="container-x py-20 md:py-28"
       aria-labelledby="whyus-heading"
     >
       <Reveal className="mb-12 max-w-2xl">
-        <p className="section-label">Dlaczego Omega Workforce</p>
+        <p className="section-label">{t(T.whyUsSection.label, lang)}</p>
         <h2
           id="whyus-heading"
           className="font-display text-3xl font-bold tracking-tight text-fg sm:text-4xl"
         >
-          Przewaga, którą{" "}
-          <span className="text-gradient">da się sprawdzić.</span>
+          {t(T.whyUsSection.heading1, lang)}{" "}
+          <span className="text-gradient">{t(T.whyUsSection.heading2, lang)}</span>
         </h2>
         <p className="mt-4 text-[15px] text-fg-muted">
-          Nie obiecujemy ogólników. Każda deklaracja ma konkretny mechanizm
-          weryfikacji — dokumenty, liczby, umowy.
+          {t(T.whyUsSection.sub, lang)}
         </p>
       </Reveal>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        {whyUs.map((w, i) => (
+        {whyUsData.map((w, i) => (
           <Reveal key={w.title} delay={i * 75}>
             <div className="glass glass-hover flex h-full gap-5 rounded-2xl p-6 md:p-7">
               {/* Lewa: numer + ikona */}

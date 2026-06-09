@@ -1,22 +1,25 @@
+"use client";
+
 import { Building2, UserRound, Check, TrendingUp } from "lucide-react";
-import { audienceSplit } from "@/lib/content";
+import { useLang } from "./LangProvider";
+import { T, t } from "@/lib/translations";
 import { Reveal } from "./Reveal";
 
-const copy = audienceSplit;
-
 export function AudienceSplit() {
+  const { lang } = useLang();
+
   return (
     <section
       id="kandydaci"
       className="container-x py-20 md:py-28"
-      aria-label={copy.heading}
+      aria-label={t(T.audience.heading, lang)}
     >
       <Reveal className="mb-10 text-center">
-        <p className="section-label justify-center">{copy.sectionLabel}</p>
+        <p className="section-label justify-center">{t(T.audience.sectionLabel, lang)}</p>
         <h2 className="font-display text-3xl font-bold tracking-tight text-fg sm:text-4xl">
-          {copy.heading}
+          {t(T.audience.heading, lang)}
         </h2>
-        <p className="mx-auto mt-3 max-w-lg text-sm text-fg-muted">{copy.sub}</p>
+        <p className="mx-auto mt-3 max-w-lg text-sm text-fg-muted">{t(T.audience.sub, lang)}</p>
       </Reveal>
 
       <div className="grid gap-5 md:grid-cols-2">
@@ -37,11 +40,16 @@ export function AudienceSplit() {
               <span className="icon-badge icon-badge-accent mb-5 block w-fit" aria-hidden>
                 <Building2 className="h-5 w-5" />
               </span>
-              <p className="section-label">{copy.company.label}</p>
-              <h3 className="font-display text-2xl font-bold text-fg">{copy.company.heading}</h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-fg-muted">{copy.company.sub}</p>
+              <p className="section-label">{t(T.audience.b2bLabel, lang)}</p>
+              <h3 className="font-display text-2xl font-bold text-fg">{t(T.audience.b2bHeading, lang)}</h3>
+              <p className="mt-2.5 text-sm leading-relaxed text-fg-muted">{t(T.audience.b2bSub, lang)}</p>
               <ul className="mt-6 space-y-3" role="list">
-                {copy.company.bullets.map((b) => (
+                {[
+                  t(T.audience.b2bB1, lang),
+                  t(T.audience.b2bB2, lang),
+                  t(T.audience.b2bB3, lang),
+                  t(T.audience.b2bB4, lang),
+                ].map((b) => (
                   <li key={b} className="flex items-start gap-2.5 text-sm text-fg">
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-signal" aria-hidden />
                     {b}
@@ -50,11 +58,11 @@ export function AudienceSplit() {
               </ul>
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <a href="#kontakt" className="btn-primary">
-                  {copy.company.cta}
+                  {t(T.audience.b2bCta, lang)}
                 </a>
                 <span className="text-xs text-fg-faint flex items-center gap-1">
                   <TrendingUp className="h-3.5 w-3.5 text-accent" aria-hidden />
-                  {copy.company.ctaNote}
+                  {t(T.audience.b2bCtaNote, lang)}
                 </span>
               </div>
             </div>
@@ -78,11 +86,16 @@ export function AudienceSplit() {
               <span className="icon-badge icon-badge-signal mb-5 block w-fit" aria-hidden>
                 <UserRound className="h-5 w-5" />
               </span>
-              <p className="section-label-signal">{copy.candidate.label}</p>
-              <h3 className="font-display text-2xl font-bold text-fg">{copy.candidate.heading}</h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-fg-muted">{copy.candidate.sub}</p>
+              <p className="section-label-signal">{t(T.audience.candLabel, lang)}</p>
+              <h3 className="font-display text-2xl font-bold text-fg">{t(T.audience.candHeading, lang)}</h3>
+              <p className="mt-2.5 text-sm leading-relaxed text-fg-muted">{t(T.audience.candSub, lang)}</p>
               <ul className="mt-6 space-y-3" role="list">
-                {copy.candidate.bullets.map((b) => (
+                {[
+                  t(T.audience.candB1, lang),
+                  t(T.audience.candB2, lang),
+                  t(T.audience.candB3, lang),
+                  t(T.audience.candB4, lang),
+                ].map((b) => (
                   <li key={b} className="flex items-start gap-2.5 text-sm text-fg">
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-signal" aria-hidden />
                     {b}
@@ -91,9 +104,8 @@ export function AudienceSplit() {
               </ul>
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <a href="#kontakt" className="btn-signal">
-                  {copy.candidate.cta}
+                  {t(T.audience.candCta, lang)}
                 </a>
-                <span className="text-xs text-fg-faint">{copy.candidate.ctaNoteUA}</span>
               </div>
             </div>
           </div>
