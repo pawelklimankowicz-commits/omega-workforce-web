@@ -57,35 +57,24 @@ export default function LoginPage() {
               priority
               className="rounded-2xl"
             />
+            <span className="font-display text-2xl font-bold tracking-tight text-fg">Omega Workforce</span>
           </a>
-          <p className="text-fg-muted text-sm mt-3">Panel operacyjny</p>
         </div>
 
         {/* Card */}
         <div className="glass rounded-2xl p-8 space-y-6">
           <div>
-            <h1 className="text-2xl font-bold text-fg">Zaloguj się</h1>
-            <p className="text-fg-muted text-sm mt-1">Dostęp chroniony — tylko autoryzowani użytkownicy.</p>
+            <h1 className="text-2xl font-bold text-fg text-center">Zaloguj się</h1>
           </div>
 
-          {/* Demo accounts */}
-          <div className="space-y-2">
-            <p className="text-xs text-fg-faint font-medium uppercase tracking-wider">Konta demo</p>
-            <div className="grid grid-cols-2 gap-2">
-              {DEMO_ACCOUNTS.map(acc => (
-                <button key={acc.email} type="button" onClick={() => fillDemo(acc)}
-                  className="flex items-center gap-2.5 p-3 rounded-xl border border-white/10 text-left transition-all hover:border-white/25 hover:-translate-y-0.5">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm flex-shrink-0"
-                    style={{ background: `${acc.color}22` }}>
-                    {acc.icon}
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold text-fg leading-tight">{acc.label}</p>
-                    <p className="text-[10px] text-fg-faint">{acc.email}</p>
-                  </div>
-                </button>
-              ))}
-            </div>
+          {/* Panel shortcuts */}
+          <div className="grid grid-cols-2 gap-2">
+            {DEMO_ACCOUNTS.map(acc => (
+              <button key={acc.email} type="button" onClick={() => fillDemo(acc)}
+                className="py-2.5 px-4 rounded-xl border border-white/10 text-sm font-semibold text-fg transition-all hover:border-white/25 hover:bg-white/[0.04]">
+                {acc.label === "Panel Firmy (B2B)" ? "Panel firmy" : "Panel pracownika"}
+              </button>
+            ))}
           </div>
 
           {/* Form */}
@@ -135,20 +124,31 @@ export default function LoginPage() {
                     <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     Loguję…
                   </span>
-                : "Zaloguj się →"
+                : "Zaloguj się"
               }
             </button>
           </form>
 
-          <div className="flex items-center gap-2 text-xs text-fg-faint pt-2 border-t border-white/8">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-            <span>Sesja wygasa po 8h · Dane szyfrowane w tranzycie (TLS 1.3)</span>
-          </div>
         </div>
 
-        <p className="text-center text-[11px] font-semibold uppercase tracking-[0.15em] text-accent/50 mt-4">
-          Ostatnie słowo w rekrutacji należy do nas
-        </p>
+        {/* Motto — styl identyczny jak na landing page */}
+        <div className="mt-6 flex justify-center">
+          <div
+            className="relative inline-block rounded-2xl p-px"
+            style={{ background: "linear-gradient(135deg, rgba(91,140,255,0.5), rgba(138,92,255,0.45), rgba(91,140,255,0.3))" }}
+          >
+            <div
+              className="rounded-2xl px-5 py-2.5 text-center"
+              style={{ background: "linear-gradient(135deg, rgba(91,140,255,0.09), rgba(6,6,10,0.85))", backdropFilter: "blur(8px)" }}
+            >
+              <p className="text-[13px] font-semibold leading-snug text-fg">
+                <span className="mr-1 font-serif text-lg leading-none text-accent/60" aria-hidden>&bdquo;</span>
+                Omega Workforce — ostatnie słowo w rekrutacji należy do nas
+                <span className="ml-1 font-serif text-lg leading-none text-accent/60" aria-hidden>&rdquo;</span>
+              </p>
+            </div>
+          </div>
+        </div>
 
         <p className="text-center text-xs text-fg-faint mt-3">
           Problem z dostępem?{" "}
