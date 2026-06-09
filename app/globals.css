@@ -212,6 +212,12 @@ select.field option {
   color: #F4F5F8;
 }
 
+/* ─── Legal pages prose ─── */
+.prose-legal ol { list-style: decimal inside; padding-left: 0.25rem; }
+.prose-legal ol[class*="lower-alpha"] { list-style: lower-alpha inside; }
+.prose-legal table { border-collapse: collapse; width: 100%; }
+.prose-legal td { padding: 0.625rem 0.75rem; vertical-align: top; }
+
 /* ─── Language toggle button ─── */
 .lang-btn {
   @apply inline-flex h-7 min-w-[36px] items-center justify-center rounded-md px-2 text-xs font-semibold transition-all duration-200;

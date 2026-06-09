@@ -13,15 +13,15 @@ export const company = {
   tagline:    "Agencja zatrudnienia nowej generacji",
   motto:      "Ostatnie słowo w rekrutacji należy do nas",
   mottoFull:  "Omega Workforce — ostatnie słowo w rekrutacji należy do nas",
-  // TODO: uzupełnij o realne dane rejestrowe przed publikacją
-  kraz:       "0000/00",
-  nip:        "000-000-00-00",
-  regon:      "000000000",
-  krs:        "0000000000",
+  kraz:       "0000853422",
+  nip:        "781-201-17-24",
+  regon:      "386693099",
+  krs:        "0000853422",
   phone:      "+48 503 090 523",
   phoneHref:  "+48503090523",
   email:      "kontakt@omegaworkforce.pl",
-  address:    "ul. Przykładowa 1, 00-000 Warszawa",
+  emailRodo:  "rodo@omegaworkforce.pl",
+  address:    "os. Stefana Batorego 14/81, 60-687 Poznań",
   hours:      "Pon–Pt  8:00–18:00",
 };
 

@@ -23,9 +23,9 @@ export function Footer() {
   ];
 
   const legalLinks = [
-    { label: t(T.footer.privacy, lang), href: "#" },
-    { label: t(T.footer.rodo,    lang), href: "#" },
-    { label: t(T.footer.terms,   lang), href: "#" },
+    { label: t(T.footer.privacy, lang), href: "/polityka-prywatnosci" },
+    { label: t(T.footer.rodo,    lang), href: "/rodo"                 },
+    { label: t(T.footer.terms,   lang), href: "/regulamin"            },
   ];
 
   return (
