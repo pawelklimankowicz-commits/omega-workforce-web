@@ -1,6 +1,5 @@
 "use client";
 
-import { ShieldCheck, Clock, CheckCircle } from "lucide-react";
 import { heroBenefits } from "@/lib/content";
 import { T, t } from "@/lib/translations";
 import { useLang } from "./LangProvider";
@@ -71,22 +70,6 @@ export function Hero() {
             </a>
           </div>
 
-          {/* Trust signals */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2.5 text-xs text-fg-faint">
-            {[
-              { icon: <ShieldCheck className="h-4 w-4 text-signal" />, text: t(T.hero.badge1, lang) },
-              { icon: <Clock       className="h-4 w-4 text-accent"  />, text: t(T.hero.badge2, lang) },
-              { icon: <ShieldCheck className="h-4 w-4 text-signal"  />, text: t(T.hero.badge3, lang) },
-              { icon: <CheckCircle className="h-4 w-4 text-accent-violet" />, text: t(T.hero.badge4, lang) },
-            ].map((b, i) => (
-              <>
-                <span key={i} className="inline-flex items-center gap-1.5">
-                  {b.icon} {b.text}
-                </span>
-                {i < 3 && <span className="hidden sm:inline text-white/15" aria-hidden>·</span>}
-              </>
-            ))}
-          </div>
         </Reveal>
 
         {/* Benefit card */}

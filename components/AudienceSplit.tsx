@@ -94,7 +94,6 @@ export function AudienceSplit() {
                   t(T.audience.candB1, lang),
                   t(T.audience.candB2, lang),
                   t(T.audience.candB3, lang),
-                  t(T.audience.candB4, lang),
                 ].map((b) => (
                   <li key={b} className="flex items-start gap-2.5 text-sm text-fg">
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-signal" aria-hidden />
