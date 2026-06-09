@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, ShieldCheck, Clock, CheckCircle } from "lucide-react";
+import { ShieldCheck, Clock, CheckCircle } from "lucide-react";
 import { heroBenefits } from "@/lib/content";
 import { T, t } from "@/lib/translations";
 import { useLang } from "./LangProvider";
@@ -38,9 +38,23 @@ export function Hero() {
           </h1>
 
           {/* Motto */}
-          <p className="mx-auto mt-5 text-[13px] font-semibold uppercase tracking-[0.18em] text-accent/80">
-            {t(T.hero.motto, lang)}
-          </p>
+          <div className="mx-auto mt-7 flex justify-center">
+            <div
+              className="relative inline-block rounded-2xl p-px"
+              style={{ background: "linear-gradient(135deg, rgba(91,140,255,0.5), rgba(138,92,255,0.45), rgba(91,140,255,0.3))" }}
+            >
+              <div
+                className="rounded-2xl px-6 py-3 text-center"
+                style={{ background: "linear-gradient(135deg, rgba(91,140,255,0.09), rgba(6,6,10,0.85))", backdropFilter: "blur(8px)" }}
+              >
+                <p className="text-[15px] font-semibold leading-snug text-fg sm:text-base">
+                  <span className="mr-1 font-serif text-xl leading-none text-accent/60" aria-hidden>&bdquo;</span>
+                  {t(T.hero.motto, lang)}
+                  <span className="ml-1 font-serif text-xl leading-none text-accent/60" aria-hidden>&rdquo;</span>
+                </p>
+              </div>
+            </div>
+          </div>
 
           {/* Sub */}
           <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-fg-muted sm:text-base md:text-lg">
@@ -51,7 +65,6 @@ export function Hero() {
           <div className="mx-auto mt-9 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:max-w-md">
             <a href="#kontakt" className="btn-primary flex-1 !py-3.5 !text-[14px]">
               {t(T.hero.ctaFirm, lang)}
-              <ArrowRight className="h-4 w-4" aria-hidden />
             </a>
             <a href="#kandydaci" className="btn-ghost flex-1 !py-3.5 !text-[14px]">
               {t(T.hero.ctaJob, lang)}

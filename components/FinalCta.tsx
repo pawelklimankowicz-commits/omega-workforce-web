@@ -1,4 +1,4 @@
-import { ArrowRight, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 import { finalCta, company } from "@/lib/content";
 import { Reveal } from "./Reveal";
 
@@ -50,7 +50,6 @@ export function FinalCta() {
                 className="btn-primary !px-8 !py-3.5 !text-sm w-full justify-center sm:w-auto"
               >
                 {copy.ctaPrimary}
-                <ArrowRight className="h-4 w-4" aria-hidden />
               </a>
               <a
                 href={`tel:${copy.ctaPhone.replace(/\s/g, "")}`}

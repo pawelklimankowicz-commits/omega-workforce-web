@@ -3,7 +3,7 @@
 import { useState } from "react";
 import {
   Send, CheckCircle2, Phone, Mail, Clock, ShieldCheck,
-  Building2, UserRound, ArrowRight, AlertCircle,
+  Building2, UserRound, AlertCircle,
 } from "lucide-react";
 import { company, contactCopy } from "@/lib/content";
 import { Reveal } from "./Reveal";
@@ -292,7 +292,6 @@ export function LeadForm() {
                       <>
                         <Send className="h-4 w-4" aria-hidden />
                         {role === "firma" ? copy.submitB2B : copy.submitCandidate}
-                        <ArrowRight className="h-4 w-4" aria-hidden />
                       </>
                     )}
                   </button>

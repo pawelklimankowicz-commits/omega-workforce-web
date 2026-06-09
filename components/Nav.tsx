@@ -47,10 +47,6 @@ export function Nav() {
               {lang === "UA" ? "Реєстр KRAZ №" : "Wpis do KRAZ nr"}{" "}
               <strong className="font-semibold text-fg">{company.kraz}</strong>
             </span>
-            <span className="hidden xl:inline text-white/20" aria-hidden>·</span>
-            <span className="hidden xl:inline text-fg-faint">
-              {lang === "UA" ? "Легальне агентство зайнятості · обслуговування іноземців" : "Legalna agencja zatrudnienia · obsługa cudzoziemców"}
-            </span>
           </div>
 
           <div className="flex items-center gap-4">
@@ -112,7 +108,6 @@ export function Nav() {
             </a>
             <a href="#kontakt" className="btn-primary !py-2 !px-5 !text-[13px]">
               {t(T.nav.freeQuote, lang)}
-              <ArrowRight className="h-3.5 w-3.5" />
             </a>
           </div>
 
@@ -165,7 +160,6 @@ export function Nav() {
             <a href="#kontakt" onClick={() => setOpen(false)}
               className="btn-primary w-full justify-center !py-3.5 !text-sm">
               {t(T.nav.freeQuote, lang)}
-              <ArrowRight className="h-4 w-4" />
             </a>
             <a href="#kandydaci" onClick={() => setOpen(false)}
               className="btn-ghost w-full justify-center !py-3.5 !text-sm">

@@ -361,7 +361,6 @@ export function Process() {
 
           <a href="#kontakt" className="btn-primary inline-flex text-base px-8 py-3.5">
             Zacznij teraz — wycena bezpłatna
-            <ArrowRight className="h-4 w-4" aria-hidden />
           </a>
 
           <p className="text-xs text-fg-faint">

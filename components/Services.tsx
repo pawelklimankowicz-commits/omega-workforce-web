@@ -1,4 +1,4 @@
-import { Users, Repeat, Boxes, Globe, Check, ArrowRight } from "lucide-react";
+import { Users, Repeat, Boxes, Globe, Check } from "lucide-react";
 import { services } from "@/lib/content";
 import { Reveal } from "./Reveal";
 
@@ -91,7 +91,6 @@ export function Services() {
                   aria-label={`Zapytaj o usługę: ${s.title}`}
                 >
                   Zapytaj o tę usługę
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />
                 </a>
               </article>
             </Reveal>

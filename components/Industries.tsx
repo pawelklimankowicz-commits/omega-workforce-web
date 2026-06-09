@@ -1,6 +1,5 @@
 import { industries } from "@/lib/content";
 import { Reveal } from "./Reveal";
-import { ArrowRight } from "lucide-react";
 
 export function Industries() {
   return (
@@ -34,10 +33,6 @@ export function Industries() {
               aria-label={`Zapytaj o pracowników: ${ind}`}
             >
               {ind}
-              <ArrowRight
-                className="h-3.5 w-3.5 opacity-0 -translate-x-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0"
-                aria-hidden
-              />
             </a>
           ))}
         </div>

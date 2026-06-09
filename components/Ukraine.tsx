@@ -1,4 +1,4 @@
-import { Globe, FileCheck2, Home, Languages, ArrowRight, ShieldCheck } from "lucide-react";
+import { Globe, FileCheck2, Home, Languages, ShieldCheck } from "lucide-react";
 import { ukraineSection, ukraineBenefits, ukraineCandidateMessage } from "@/lib/content";
 import { Reveal } from "./Reveal";
 
@@ -72,7 +72,6 @@ export function Ukraine() {
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <a href="#kontakt" className="btn-primary">
                   {ukraineSection.ctaB2B}
-                  <ArrowRight className="h-4 w-4" aria-hidden />
                 </a>
                 <a
                   href="#kontakt"
@@ -80,7 +79,6 @@ export function Ukraine() {
                   lang="uk"
                 >
                   {ukraineSection.ctaUA}
-                  <ArrowRight className="h-4 w-4" aria-hidden />
                 </a>
               </div>
             </div>

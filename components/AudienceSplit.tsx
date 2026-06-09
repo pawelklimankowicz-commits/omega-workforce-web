@@ -1,4 +1,4 @@
-import { Building2, UserRound, ArrowRight, Check, TrendingUp } from "lucide-react";
+import { Building2, UserRound, Check, TrendingUp } from "lucide-react";
 import { audienceSplit } from "@/lib/content";
 import { Reveal } from "./Reveal";
 
@@ -51,7 +51,6 @@ export function AudienceSplit() {
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <a href="#kontakt" className="btn-primary">
                   {copy.company.cta}
-                  <ArrowRight className="h-4 w-4" aria-hidden />
                 </a>
                 <span className="text-xs text-fg-faint flex items-center gap-1">
                   <TrendingUp className="h-3.5 w-3.5 text-accent" aria-hidden />
@@ -93,7 +92,6 @@ export function AudienceSplit() {
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <a href="#kontakt" className="btn-signal">
                   {copy.candidate.cta}
-                  <ArrowRight className="h-4 w-4" aria-hidden />
                 </a>
                 <span className="text-xs text-fg-faint">{copy.candidate.ctaNoteUA}</span>
               </div>

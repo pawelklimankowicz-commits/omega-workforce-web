@@ -23,7 +23,7 @@ export const T = {
   hero: {
     pill:    { PL: "Agencja zatrudnienia nowej generacji", UA: "Агентство зайнятості нового покоління" },
     h1a:     { PL: "Ludzie do pracy.",                    UA: "Люди до роботи."                        },
-    h1b:     { PL: "Dostarczeni legalnie i na czas.",     UA: "Доставлені легально та вчасно."         },
+    h1b:     { PL: "Profesjonaliści dostarczeni legalnie i na czas.", UA: "Професіонали доставлені легально та вчасно." },
     motto:   { PL: "Omega Workforce — ostatnie słowo w rekrutacji należy do nas",
                UA: "Omega Workforce — останнє слово у рекрутингу належить нам" },
     sub:     { PL: "Bierzemy na siebie rekrutację, kadry i legalizację — Ty dostajesz gotowych pracowników w 7 dni. Pośrednictwo, leasing, outsourcing i pełna obsługa pracowników z Ukrainy.",
