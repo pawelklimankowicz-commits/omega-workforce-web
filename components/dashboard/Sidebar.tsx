@@ -74,7 +74,10 @@ export function Sidebar({ role, userName, userEmail, onClose }: Props) {
           priority
           className="object-contain object-left"
         />
-        <p className="text-[10px] text-fg-faint pl-0.5">
+        <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-accent/50 pl-0.5 mt-0.5">
+          Ostatnie słowo w rekrutacji należy do nas
+        </p>
+        <p className="text-[10px] text-fg-faint pl-0.5 mt-0.5">
           {role === "firma" ? "Panel firmy B2B" : role === "pracownik" ? "Panel pracownika" : "Panel admina"}
         </p>
       </div>

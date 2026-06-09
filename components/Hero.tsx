@@ -1,5 +1,5 @@
 import { ArrowRight, ShieldCheck, Clock, CheckCircle } from "lucide-react";
-import { heroB, heroBenefits } from "@/lib/content";
+import { heroB, heroBenefits, company } from "@/lib/content";
 import { Reveal } from "./Reveal";
 
 // Aktywny wariant: heroB (Premium / value-first).
@@ -49,8 +49,13 @@ export function Hero() {
             {hero.h1line2}
           </h1>
 
+          {/* Motto */}
+          <p className="mx-auto mt-5 text-[13px] font-semibold uppercase tracking-[0.18em] text-accent/80">
+            {company.mottoFull}
+          </p>
+
           {/* Subheadline */}
-          <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-fg-muted sm:text-base md:text-lg">
+          <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-fg-muted sm:text-base md:text-lg">
             {hero.sub}
           </p>
 

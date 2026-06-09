@@ -146,7 +146,11 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <p className="text-center text-xs text-fg-faint mt-6">
+        <p className="text-center text-[11px] font-semibold uppercase tracking-[0.15em] text-accent/50 mt-4">
+          Ostatnie słowo w rekrutacji należy do nas
+        </p>
+
+        <p className="text-center text-xs text-fg-faint mt-3">
           Problem z dostępem?{" "}
           <a href="mailto:kontakt@omegaworkforce.pl" className="text-accent hover:underline">
             Skontaktuj się z Omega Workforce

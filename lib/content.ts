@@ -11,6 +11,8 @@
 export const company = {
   name:       "Omega Workforce",
   tagline:    "Agencja zatrudnienia nowej generacji",
+  motto:      "Ostatnie słowo w rekrutacji należy do nas",
+  mottoFull:  "Omega Workforce — ostatnie słowo w rekrutacji należy do nas",
   // TODO: uzupełnij o realne dane rejestrowe przed publikacją
   kraz:       "0000/00",
   nip:        "000-000-00-00",

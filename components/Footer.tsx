@@ -1,4 +1,5 @@
 import { company, nav } from "@/lib/content";
+
 import { Logo } from "./Logo";
 import { ShieldCheck, Phone, Mail, Clock, MapPin } from "lucide-react";
 
@@ -16,8 +17,11 @@ export function Footer() {
           {/* Kolumna 1 — marka + legal */}
           <div>
             <Logo variant="horizontal" height={36} />
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-fg-muted">
-              {company.tagline}. Pośrednictwo pracy, leasing pracowniczy, outsourcing
+            <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent/70">
+              {company.mottoFull}
+            </p>
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-fg-muted">
+              Pośrednictwo pracy, leasing pracowniczy, outsourcing
               i obsługa cudzoziemców — legalnie, szybko i transparentnie.
             </p>
 

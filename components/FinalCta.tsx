@@ -1,5 +1,5 @@
 import { ArrowRight, Phone } from "lucide-react";
-import { finalCta } from "@/lib/content";
+import { finalCta, company } from "@/lib/content";
 import { Reveal } from "./Reveal";
 
 const copy = finalCta;
@@ -61,7 +61,10 @@ export function FinalCta() {
               </a>
             </div>
 
-            <p className="relative mt-5 text-xs text-fg-faint">{copy.footer}</p>
+            <p className="relative mt-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-accent/60">
+              {company.mottoFull}
+            </p>
+            <p className="relative mt-2 text-xs text-fg-faint">{copy.footer}</p>
           </div>
         </div>
       </Reveal>

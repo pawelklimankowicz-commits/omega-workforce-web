@@ -7,11 +7,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://omegaworkforce.pl"),
   title: {
-    default: "Omega Workforce — agencja pracy, leasing, outsourcing, pracownicy z Ukrainy",
+    default: "Omega Workforce — ostatnie słowo w rekrutacji należy do nas",
     template: "%s | Omega Workforce",
   },
   description:
-    "Legalna agencja zatrudnienia: pośrednictwo pracy, praca tymczasowa, outsourcing procesów oraz rekrutacja i obsługa pracowników z Ukrainy. Wycena w 24h, kandydaci w 7 dni.",
+    "Omega Workforce — ostatnie słowo w rekrutacji należy do nas. Legalna agencja zatrudnienia: pośrednictwo pracy, praca tymczasowa, outsourcing oraz rekrutacja i obsługa pracowników z Ukrainy. Wycena w 24h, kandydaci w 7 dni.",
   keywords: [
     "agencja pracy",
     "leasing pracowniczy",
@@ -19,13 +19,14 @@ export const metadata: Metadata = {
     "pracownicy z Ukrainy",
     "praca tymczasowa",
     "pośrednictwo pracy",
+    "ostatnie słowo w rekrutacji",
   ],
   openGraph: {
     type: "website",
     locale: "pl_PL",
-    title: "Omega Workforce — agencja zatrudnienia nowej generacji",
+    title: "Omega Workforce — ostatnie słowo w rekrutacji należy do nas",
     description:
-      "Pośrednictwo, leasing, outsourcing i obsługa pracowników z Ukrainy. Legalnie, szybko, transparentnie.",
+      "Omega Workforce — ostatnie słowo w rekrutacji należy do nas. Pośrednictwo, leasing, outsourcing i obsługa pracowników z Ukrainy.",
     siteName: company.name,
   },
   robots: { index: true, follow: true },
