@@ -129,15 +129,6 @@ function TabPulpit() {
         </table>
       </div>
 
-      <div className="glass rounded-2xl p-5 border border-amber-400/15 bg-amber-400/4">
-        <div className="flex gap-3">
-          <span className="text-amber-300 mt-0.5 flex-shrink-0">⚠</span>
-          <div>
-            <p className="text-sm font-semibold text-amber-200 mb-1">Środowisko testowe</p>
-            <p className="text-xs text-fg-muted">Poniższe konta służą wyłącznie do testowania. Hasła są przechowywane jako zwykły tekst w <code className="text-amber-300/80">lib/auth.ts</code>. Przed wdrożeniem produkcyjnym zastąp je prawdziwą bazą danych z hashowaniem (bcrypt).</p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
