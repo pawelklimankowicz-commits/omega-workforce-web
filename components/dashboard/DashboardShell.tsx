@@ -19,7 +19,7 @@ export function DashboardShell({ role, userName, userEmail, alerts, children }: 
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <DashLangProvider>
+    <DashLangProvider defaultLang={role === "pracownik" ? "UA" : "PL"}>
       <div className="flex h-screen overflow-hidden" style={{ background: "#0E0F17" }}>
         {/* Desktop sidebar */}
         <aside className="hidden lg:flex flex-col w-60 xl:w-64 flex-shrink-0 h-screen sticky top-0 border-r border-white/8"

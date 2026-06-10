@@ -56,11 +56,14 @@ export function Sidebar({ role, userName, userEmail, onClose }: Props) {
   const initials  = userName.split(" ").map(w => w[0]).slice(0,2).join("").toUpperCase();
   const accentCol = role === "pracownik" ? "#34D39A" : "#5B8CFF";
 
-  const panelLabel = lang === "UA"
-    ? (role === "firma" ? "Панель компанії B2B" : role === "pracownik" ? "Панель працівника" : "Панель адміна")
-    : (role === "firma" ? "Panel firmy B2B" : role === "pracownik" ? "Panel pracownika" : "Panel admina");
+  // Firma zawsze PL, pracownik i admin reagują na wybrany język
+  const panelLabel = role === "firma"
+    ? "Panel firmy B2B"
+    : lang === "UA"
+      ? (role === "pracownik" ? "Панель працівника" : "Панель адміна")
+      : (role === "pracownik" ? "Panel pracownika"  : "Panel admina");
 
-  const mottoLabel = lang === "UA"
+  const mottoLabel = role !== "firma" && lang === "UA"
     ? "Останнє слово у рекрутингу належить нам"
     : "Ostatnie słowo w rekrutacji należy do nas";
 
@@ -79,7 +82,7 @@ export function Sidebar({ role, userName, userEmail, onClose }: Props) {
       <div className="flex-1 py-4 px-3 space-y-0.5 overflow-y-auto">
         {nav.map(item => {
           const active = pathname === item.href || (item.href !== `/dashboard/${role}` && pathname.startsWith(item.href));
-          const label  = lang === "UA" ? item.labelUA : item.labelPL;
+          const label  = role !== "firma" && lang === "UA" ? item.labelUA : item.labelPL;
           return (
             <Link key={item.href} href={item.href} onClick={() => onClose?.()}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 relative group ${active ? "text-fg" : "text-fg-muted hover:text-fg hover:bg-white/5"}`}
@@ -111,7 +114,7 @@ export function Sidebar({ role, userName, userEmail, onClose }: Props) {
             <p className="text-[10px] text-fg-faint truncate">{userEmail}</p>
           </div>
           <form action={logoutAction}>
-            <button type="submit" title={lang === "UA" ? "Вийти" : "Wyloguj się"} className="text-fg-faint hover:text-red-400 transition-colors p-1">
+            <button type="submit" title={role !== "firma" && lang === "UA" ? "Вийти" : "Wyloguj się"} className="text-fg-faint hover:text-red-400 transition-colors p-1">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
               </svg>

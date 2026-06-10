@@ -17,7 +17,7 @@ interface Props {
   onLangChange?: (l: string) => void;
 }
 
-export function TopBar({ userName, alerts = [], onMenuToggle }: Props) {
+export function TopBar({ userName, userRole = "", alerts = [], onMenuToggle }: Props) {
   const { lang, setLang }             = useDashLang();
   const [notifOpen,   setNotifOpen]   = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -58,22 +58,21 @@ export function TopBar({ userName, alerts = [], onMenuToggle }: Props) {
       </div>
 
       <div className="flex items-center gap-2 ml-auto">
-        {/* Language toggle — wired to DashLangProvider context */}
-        <div className="flex items-center rounded-lg overflow-hidden border border-white/10"
-          role="group" aria-label={lang === "UA" ? "Вибір мови" : "Wybór języka"}>
-          <Globe className="mx-1.5 h-3 w-3 text-fg-faint" aria-hidden />
-          {(["PL", "UA"] as const).map(l => (
-            <button key={l} type="button" onClick={() => setLang(l)}
-              className={`px-2.5 py-1.5 text-xs font-bold transition-all ${
-                lang === l ? "" : "text-fg-faint hover:text-fg"
-              }`}
-              style={lang === l ? { background: "rgba(91,140,255,0.2)", color: "#5B8CFF" } : {}}
-              aria-pressed={lang === l}
-              aria-label={`Język ${l}`}>
-              {l}
-            </button>
-          ))}
-        </div>
+        {/* Language toggle — ukryty dla roli firma (tylko PL) */}
+        {userRole !== "firma" && (
+          <div className="flex items-center gap-0.5 rounded-lg border border-white/[0.07] bg-white/[0.03] p-0.5"
+            role="group" aria-label={lang === "UA" ? "Вибір мови" : "Wybór języka"}>
+            <Globe className="mx-1.5 h-3 w-3 text-fg-faint" aria-hidden />
+            {(["PL", "UA"] as const).map(l => (
+              <button key={l} type="button" onClick={() => setLang(l)}
+                className={`lang-btn ${lang === l ? "lang-btn-active" : "lang-btn-inactive"}`}
+                aria-pressed={lang === l}
+                aria-label={`Język ${l}`}>
+                {l}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Notifications */}
         <div className="relative">
