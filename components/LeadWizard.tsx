@@ -3,26 +3,152 @@
 import { useState } from "react";
 import type { ContactRole, FormStatus } from "@/lib/types";
 import { onLeadSubmit } from "@/lib/analytics";
+import { useLang } from "@/components/LangProvider";
 
-// ─── Option sets ─────────────────────────────────────────────────────────────
+// ─── Translations ─────────────────────────────────────────────────────────────
 
-const HEADCOUNT_OPTIONS = ["1–5", "6–15", "16–50", "51–100", "100+"] as const;
-
-const URGENCY_OPTIONS = [
-  { value: "asap",   label: "Jak najszybciej",           badge: "🔥" },
-  { value: "soon",   label: "Za 1–2 tygodnie",           badge: "📅" },
-  { value: "plan",   label: "Planuję z wyprzedzeniem",   badge: "📊" },
-] as const;
-
-const AVAILABILITY_OPTIONS = [
-  { value: "now",    label: "Od zaraz",       badge: "⚡" },
-  { value: "2w",     label: "Za 2 tygodnie",  badge: "📅" },
-  { value: "month",  label: "Za miesiąc+",   badge: "🗓️" },
-] as const;
-
-// ─── Step indicator ──────────────────────────────────────────────────────────
-
-const STEPS = ["Twoja rola", "Szczegóły", "Kontakt"] as const;
+const T = {
+  PL: {
+    pill: "Bezpłatna konsultacja",
+    heading: "Zacznijmy razem",
+    subheading: "Pierwsza rozmowa bezpłatna. Propozycja kandydatów lub oferty pracy w 24h.",
+    steps: ["Twoja rola", "Szczegóły", "Kontakt"],
+    stepLabel: (s: number) => `Krok ${s} z 2`,
+    whoTitle: "Kim jesteś?",
+    whoSub: "Dopasujemy rozmowę do Twoich potrzeb.",
+    firmaTitle: "Szukam pracowników",
+    firmaSub: "dla mojej firmy",
+    firmaTag: "Leasing · Outsourcing · Rekrutacja",
+    kandTitle: "Szukam pracy",
+    kandSub: "w Polsce lub za granicą",
+    kandTag: "Praca stała · Tymczasowa",
+    privacy: "🔒 Twoje dane są bezpieczne i nie będą udostępniane",
+    firmaDetailsTitle: "Opowiedz nam więcej",
+    firmaDetailsSub: "Dopasujemy opiekuna do Twojego zapytania.",
+    headcountLabel: "Ile osób potrzebujesz?",
+    urgencyLabel: "Kiedy chcesz zacząć?",
+    urgencyOptions: [
+      { value: "asap",  label: "Jak najszybciej",         badge: "🔥" },
+      { value: "soon",  label: "Za 1–2 tygodnie",         badge: "📅" },
+      { value: "plan",  label: "Planuję z wyprzedzeniem", badge: "📊" },
+    ],
+    kandDetailsTitle: "Opowiedz nam o sobie",
+    kandDetailsSub: "Znajdziemy oferty dopasowane do Twoich potrzeb.",
+    positionLabel: "Jakie stanowisko szukasz?",
+    positionPlaceholder: "np. spawacz, kierowca, magazynier…",
+    cityLabel: "Gdzie szukasz pracy?",
+    cityPlaceholder: "np. Kraków, Wrocław, Warszawa…",
+    availabilityLabel: "Kiedy możesz zacząć?",
+    availabilityOptions: [
+      { value: "now",   label: "Od zaraz",      badge: "⚡" },
+      { value: "2w",    label: "Za 2 tygodnie", badge: "📅" },
+      { value: "month", label: "Za miesiąc+",  badge: "🗓️" },
+    ],
+    back: "Wróć",
+    next: "Dalej",
+    contactTitle: "Jak się z Tobą skontaktować?",
+    contactSub: "Tylko dwa pola. Oddzwaniamy w ciągu 2 godzin w godzinach pracy.",
+    nameLabel: "Imię i nazwisko",
+    namePlaceholder: "np. Jan Kowalski",
+    phoneLabel: "Numer telefonu",
+    rodo: (href: string) => <>Wyrażam zgodę na przetwarzanie moich danych osobowych przez Omega Workforce w celu obsługi zapytania (art. 6 ust. 1 lit. a RODO).{" "}<a href={href} className="text-accent hover:underline" target="_blank" rel="noopener">Polityka prywatności</a></>,
+    submitFirma: "Zadzwońcie do mnie",
+    submitKand: "Pomóżcie mi znaleźć pracę",
+    sending: "Wysyłam…",
+    errorFallback: "Nie udało się wysłać. Spróbuj ponownie lub zadzwoń do nas.",
+    successTitle: "Gotowe!",
+    successFirma: "Twoje zapytanie trafiło do opiekuna. Oddzwaniamy w ciągu 2 godzin w godzinach pracy.",
+    successKand: "Twoje zgłoszenie jest u naszego doradcy. Zadzwonimy z dopasowanymi ofertami.",
+    whatNextLabel: "Co dalej?",
+    firmaTimeline: [
+      { icon: "📞", time: "Do 2h",   text: "Opiekun dzwoni z pierwszymi pytaniami" },
+      { icon: "👥", time: "24h",     text: "Przesyłamy dopasowanych kandydatów" },
+      { icon: "📝", time: "3–5 dni", text: "Podpisujemy umowę i ustalamy warunki" },
+      { icon: "✅", time: "7 dni",   text: "Pierwsi pracownicy zaczynają" },
+    ],
+    kandTimeline: [
+      { icon: "📞", time: "Do 2h",   text: "Doradca dzwoni z pytaniami o Ciebie" },
+      { icon: "💼", time: "24h",     text: "Dostaniesz propozycje ofert pracy" },
+      { icon: "🤝", time: "3–5 dni", text: "Pomagamy w rozmowie kwalifikacyjnej" },
+      { icon: "🎉", time: "7 dni",   text: "Zaczynasz pracę" },
+    ],
+    whatsappText: "Nie możesz czekać? Napisz do nas od razu:",
+    whatsappBtn: "Napisz na WhatsApp",
+    trustKraz: "✅ KRAZ-certyfikowana agencja",
+    trustRodo: "🔒 Dane chronione zgodnie z RODO",
+    trustReply: "📞 Odpowiedź w ciągu 2h",
+  },
+  UA: {
+    pill: "Безкоштовна консультація",
+    heading: "Розпочнемо разом",
+    subheading: "Перша розмова безкоштовна. Пропозиція кандидатів або вакансій протягом 24 год.",
+    steps: ["Ваша роль", "Деталі", "Контакт"],
+    stepLabel: (s: number) => `Крок ${s} з 2`,
+    whoTitle: "Хто ви?",
+    whoSub: "Ми підберемо розмову під ваші потреби.",
+    firmaTitle: "Шукаю працівників",
+    firmaSub: "для моєї компанії",
+    firmaTag: "Лізинг · Аутсорсинг · Рекрутинг",
+    kandTitle: "Шукаю роботу",
+    kandSub: "у Польщі або за кордоном",
+    kandTag: "Постійна · Тимчасова",
+    privacy: "🔒 Ваші дані у безпеці та не будуть передані третім особам",
+    firmaDetailsTitle: "Розкажіть нам більше",
+    firmaDetailsSub: "Ми підберемо куратора під ваш запит.",
+    headcountLabel: "Скільки людей вам потрібно?",
+    urgencyLabel: "Коли хочете розпочати?",
+    urgencyOptions: [
+      { value: "asap",  label: "Якомога швидше",       badge: "🔥" },
+      { value: "soon",  label: "За 1–2 тижні",          badge: "📅" },
+      { value: "plan",  label: "Планую завчасно",       badge: "📊" },
+    ],
+    kandDetailsTitle: "Розкажіть про себе",
+    kandDetailsSub: "Знайдемо вакансії відповідно до ваших потреб.",
+    positionLabel: "Яку посаду шукаєте?",
+    positionPlaceholder: "напр. зварювальник, водій, комірник…",
+    cityLabel: "Де шукаєте роботу?",
+    cityPlaceholder: "напр. Краків, Вроцлав, Варшава…",
+    availabilityLabel: "Коли можете розпочати?",
+    availabilityOptions: [
+      { value: "now",   label: "Одразу",        badge: "⚡" },
+      { value: "2w",    label: "За 2 тижні",    badge: "📅" },
+      { value: "month", label: "За місяць+",    badge: "🗓️" },
+    ],
+    back: "Назад",
+    next: "Далі",
+    contactTitle: "Як з вами зв'язатися?",
+    contactSub: "Лише два поля. Передзвонюємо протягом 2 годин у робочий час.",
+    nameLabel: "Ім'я та прізвище",
+    namePlaceholder: "напр. Іван Коваленко",
+    phoneLabel: "Номер телефону",
+    rodo: (href: string) => <>Я даю згоду на обробку моїх персональних даних компанією Omega Workforce для обробки запиту (ст. 6 п. 1 літ. а GDPR).{" "}<a href={href} className="text-accent hover:underline" target="_blank" rel="noopener">Політика конфіденційності</a></>,
+    submitFirma: "Зателефонуйте мені",
+    submitKand: "Допоможіть мені знайти роботу",
+    sending: "Надсилаю…",
+    errorFallback: "Не вдалося надіслати. Спробуйте ще раз або зателефонуйте нам.",
+    successTitle: "Готово!",
+    successFirma: "Ваш запит надійшов до куратора. Передзвонюємо протягом 2 годин у робочий час.",
+    successKand: "Ваша заявка передана нашому консультанту. Зателефонуємо з підібраними вакансіями.",
+    whatNextLabel: "Що далі?",
+    firmaTimeline: [
+      { icon: "📞", time: "До 2 год",  text: "Куратор телефонує з першими питаннями" },
+      { icon: "👥", time: "24 год",    text: "Надсилаємо підібраних кандидатів" },
+      { icon: "📝", time: "3–5 днів", text: "Підписуємо договір та узгоджуємо умови" },
+      { icon: "✅", time: "7 днів",   text: "Перші працівники приступають" },
+    ],
+    kandTimeline: [
+      { icon: "📞", time: "До 2 год",  text: "Консультант телефонує з питаннями про вас" },
+      { icon: "💼", time: "24 год",    text: "Отримаєте пропозиції вакансій" },
+      { icon: "🤝", time: "3–5 днів", text: "Допомагаємо на співбесіді" },
+      { icon: "🎉", time: "7 днів",   text: "Починаєте роботу" },
+    ],
+    whatsappText: "Не можете чекати? Напишіть нам зараз:",
+    whatsappBtn: "Написати у WhatsApp",
+    trustKraz: "✅ Сертифікована агенція KRAZ",
+    trustRodo: "🔒 Дані захищені відповідно до GDPR",
+    trustReply: "📞 Відповідь протягом 2 год",
+  },
+} as const;
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -49,6 +175,9 @@ function OptionBtn({
 // ─── Main component ──────────────────────────────────────────────────────────
 
 export function LeadWizard() {
+  const { lang } = useLang();
+  const t = T[lang];
+
   // Step: 0=role, 1=details, 2=contact, 3=success
   const [step,         setStep]         = useState(0);
   const [role,         setRole]         = useState<ContactRole | null>(null);
@@ -131,12 +260,12 @@ export function LeadWizard() {
         {/* Heading */}
         {step < 3 && (
           <div className="text-center mb-12">
-            <p className="pill-accent mb-4">Bezpłatna konsultacja</p>
+            <p className="pill-accent mb-4">{t.pill}</p>
             <h2 className="text-4xl sm:text-5xl font-extrabold text-fg mb-4 leading-tight">
-              Zacznijmy razem
+              {t.heading}
             </h2>
             <p className="text-fg-muted max-w-md mx-auto">
-              Pierwsza rozmowa bezpłatna. Propozycja kandydatów lub oferty pracy w 24h.
+              {t.subheading}
             </p>
           </div>
         )}
@@ -145,8 +274,8 @@ export function LeadWizard() {
         {step >= 1 && step < 3 && (
           <div className="flex items-center justify-center gap-3 mb-10"
             role="progressbar" aria-valuenow={step} aria-valuemax={2}
-            aria-label={`Krok ${step} z 2`}>
-            {STEPS.map((label, i) => (
+            aria-label={t.stepLabel(step)}>
+            {t.steps.map((label, i) => (
               <div key={i} className="flex items-center gap-3">
                 <div className="flex flex-col items-center gap-1">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
@@ -177,8 +306,8 @@ export function LeadWizard() {
           {step === 0 && (
             <div className="p-8 sm:p-12 space-y-8">
               <div className="text-center">
-                <h3 className="text-2xl font-bold text-fg mb-2">Kim jesteś?</h3>
-                <p className="text-fg-muted text-sm">Dopasujemy rozmowę do Twoich potrzeb.</p>
+                <h3 className="text-2xl font-bold text-fg mb-2">{t.whoTitle}</h3>
+                <p className="text-fg-muted text-sm">{t.whoSub}</p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -191,11 +320,11 @@ export function LeadWizard() {
                     🏢
                   </div>
                   <div>
-                    <p className="text-fg font-bold text-lg mb-1">Szukam pracowników</p>
-                    <p className="text-fg-muted text-sm">dla mojej firmy</p>
+                    <p className="text-fg font-bold text-lg mb-1">{t.firmaTitle}</p>
+                    <p className="text-fg-muted text-sm">{t.firmaSub}</p>
                   </div>
                   <span className="text-xs px-3 py-1 rounded-full font-semibold" style={{ background: "rgba(91,140,255,0.15)", color: "#5B8CFF" }}>
-                    Leasing · Outsourcing · Rekrutacja
+                    {t.firmaTag}
                   </span>
                 </button>
 
@@ -208,17 +337,17 @@ export function LeadWizard() {
                     👤
                   </div>
                   <div>
-                    <p className="text-fg font-bold text-lg mb-1">Szukam pracy</p>
-                    <p className="text-fg-muted text-sm">w Polsce lub za granicą</p>
+                    <p className="text-fg font-bold text-lg mb-1">{t.kandTitle}</p>
+                    <p className="text-fg-muted text-sm">{t.kandSub}</p>
                   </div>
                   <span className="text-xs px-3 py-1 rounded-full font-semibold" style={{ background: "rgba(52,211,154,0.15)", color: "#34D39A" }}>
-                    Praca stała · Tymczasowa
+                    {t.kandTag}
                   </span>
                 </button>
               </div>
 
               <p className="text-center text-fg-faint text-xs">
-                🔒 Twoje dane są bezpieczne i nie będą udostępniane
+                {t.privacy}
               </p>
             </div>
           )}
@@ -227,15 +356,15 @@ export function LeadWizard() {
           {step === 1 && role === "firma" && (
             <div className="p-8 sm:p-12 space-y-8">
               <div>
-                <h3 className="text-2xl font-bold text-fg mb-1">Opowiedz nam więcej</h3>
-                <p className="text-fg-muted text-sm">Dopasujemy opiekuna do Twojego zapytania.</p>
+                <h3 className="text-2xl font-bold text-fg mb-1">{t.firmaDetailsTitle}</h3>
+                <p className="text-fg-muted text-sm">{t.firmaDetailsSub}</p>
               </div>
 
               {/* Headcount */}
               <div className="space-y-3">
-                <p className="text-sm font-semibold text-fg">Ile osób potrzebujesz?</p>
+                <p className="text-sm font-semibold text-fg">{t.headcountLabel}</p>
                 <div className="flex flex-wrap gap-2">
-                  {HEADCOUNT_OPTIONS.map(h => (
+                  {(["1–5", "6–15", "16–50", "51–100", "100+"] as const).map(h => (
                     <OptionBtn key={h} selected={headcount === h} onClick={() => setHeadcount(h)} label={h} />
                   ))}
                 </div>
@@ -243,19 +372,19 @@ export function LeadWizard() {
 
               {/* Urgency */}
               <div className="space-y-3">
-                <p className="text-sm font-semibold text-fg">Kiedy chcesz zacząć?</p>
+                <p className="text-sm font-semibold text-fg">{t.urgencyLabel}</p>
                 <div className="flex flex-col gap-2">
-                  {URGENCY_OPTIONS.map(u => (
+                  {t.urgencyOptions.map(u => (
                     <OptionBtn key={u.value} selected={urgency === u.value} onClick={() => setUrgency(u.value)} icon={u.badge} label={u.label} />
                   ))}
                 </div>
               </div>
 
               <div className="flex gap-3">
-                <button type="button" onClick={back} className="btn-ghost flex-1">Wróć</button>
+                <button type="button" onClick={back} className="btn-ghost flex-1">{t.back}</button>
                 <button type="button" onClick={() => setStep(2)} disabled={!step1Valid}
                   className="btn-primary flex-[2] disabled:opacity-40 disabled:cursor-not-allowed">
-                  Dalej
+                  {t.next}
                 </button>
               </div>
             </div>
@@ -265,41 +394,41 @@ export function LeadWizard() {
           {step === 1 && role === "kandydat" && (
             <div className="p-8 sm:p-12 space-y-8">
               <div>
-                <h3 className="text-2xl font-bold text-fg mb-1">Opowiedz nam o sobie</h3>
-                <p className="text-fg-muted text-sm">Znajdziemy oferty dopasowane do Twoich potrzeb.</p>
+                <h3 className="text-2xl font-bold text-fg mb-1">{t.kandDetailsTitle}</h3>
+                <p className="text-fg-muted text-sm">{t.kandDetailsSub}</p>
               </div>
 
               <div className="space-y-4">
                 <div className="space-y-1.5">
-                  <label htmlFor="wiz-position" className="text-sm font-semibold text-fg">Jakie stanowisko szukasz?</label>
+                  <label htmlFor="wiz-position" className="text-sm font-semibold text-fg">{t.positionLabel}</label>
                   <input id="wiz-position" type="text" value={position}
                     onChange={e => setPosition(e.target.value)}
-                    placeholder="np. spawacz, kierowca, magazynier…"
+                    placeholder={t.positionPlaceholder}
                     className="field w-full" />
                 </div>
                 <div className="space-y-1.5">
-                  <label htmlFor="wiz-city" className="text-sm font-semibold text-fg">Gdzie szukasz pracy?</label>
+                  <label htmlFor="wiz-city" className="text-sm font-semibold text-fg">{t.cityLabel}</label>
                   <input id="wiz-city" type="text" value={city}
                     onChange={e => setCity(e.target.value)}
-                    placeholder="np. Kraków, Wrocław, Warszawa…"
+                    placeholder={t.cityPlaceholder}
                     className="field w-full" />
                 </div>
               </div>
 
               <div className="space-y-3">
-                <p className="text-sm font-semibold text-fg">Kiedy możesz zacząć?</p>
+                <p className="text-sm font-semibold text-fg">{t.availabilityLabel}</p>
                 <div className="flex flex-col gap-2">
-                  {AVAILABILITY_OPTIONS.map(a => (
+                  {t.availabilityOptions.map(a => (
                     <OptionBtn key={a.value} selected={availability === a.value} onClick={() => setAvailability(a.value)} icon={a.badge} label={a.label} />
                   ))}
                 </div>
               </div>
 
               <div className="flex gap-3">
-                <button type="button" onClick={back} className="btn-ghost flex-1">Wróć</button>
+                <button type="button" onClick={back} className="btn-ghost flex-1">{t.back}</button>
                 <button type="button" onClick={() => setStep(2)} disabled={!step1Valid}
                   className="btn-primary flex-[2] disabled:opacity-40 disabled:cursor-not-allowed">
-                  Dalej
+                  {t.next}
                 </button>
               </div>
             </div>
@@ -309,22 +438,22 @@ export function LeadWizard() {
           {step === 2 && (
             <div className="p-8 sm:p-12 space-y-6">
               <div>
-                <h3 className="text-2xl font-bold text-fg mb-1">Jak się z Tobą skontaktować?</h3>
-                <p className="text-fg-muted text-sm">Tylko dwa pola. Oddzwaniamy w ciągu 2 godzin w godzinach pracy.</p>
+                <h3 className="text-2xl font-bold text-fg mb-1">{t.contactTitle}</h3>
+                <p className="text-fg-muted text-sm">{t.contactSub}</p>
               </div>
 
               <div className="space-y-4">
                 <div className="space-y-1.5">
-                  <label htmlFor="wiz-name" className="text-sm font-semibold text-fg">Imię i nazwisko</label>
+                  <label htmlFor="wiz-name" className="text-sm font-semibold text-fg">{t.nameLabel}</label>
                   <input id="wiz-name" type="text" value={name}
                     onChange={e => setName(e.target.value)}
-                    placeholder="np. Jan Kowalski"
+                    placeholder={t.namePlaceholder}
                     autoComplete="name"
                     className="field w-full" />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label htmlFor="wiz-phone" className="text-sm font-semibold text-fg">Numer telefonu</label>
+                  <label htmlFor="wiz-phone" className="text-sm font-semibold text-fg">{t.phoneLabel}</label>
                   <input id="wiz-phone" type="tel" value={phone}
                     onChange={e => setPhone(e.target.value)}
                     placeholder="+48 600 000 000"
@@ -345,34 +474,31 @@ export function LeadWizard() {
                   </div>
                 </div>
                 <span className="text-xs text-fg-muted leading-relaxed">
-                  Wyrażam zgodę na przetwarzanie moich danych osobowych przez Omega Workforce w celu obsługi zapytania (art. 6 ust. 1 lit. a RODO).{" "}
-                  <a href="/polityka-prywatnosci" className="text-accent hover:underline" target="_blank" rel="noopener">
-                    Polityka prywatności
-                  </a>
+                  {t.rodo("/polityka-prywatnosci")}
                 </span>
               </label>
 
               {/* Error */}
               {status === "error" && (
                 <div className="rounded-xl p-4 text-sm" style={{ background: "rgba(255,80,80,0.1)", border: "1px solid rgba(255,80,80,0.2)", color: "#FF8080" }}>
-                  {errorMsg || "Nie udało się wysłać. Spróbuj ponownie lub zadzwoń do nas."}
+                  {errorMsg || t.errorFallback}
                 </div>
               )}
 
               <div className="flex gap-3">
-                <button type="button" onClick={back} className="btn-ghost flex-1">Wróć</button>
+                <button type="button" onClick={back} className="btn-ghost flex-1">{t.back}</button>
                 <button type="button" onClick={submit} disabled={!step2Valid || status === "loading"}
                   className="btn-primary flex-[2] disabled:opacity-40 disabled:cursor-not-allowed"
                   aria-busy={status === "loading"}>
                   {status === "loading" ? (
                     <span className="flex items-center justify-center gap-2">
                       <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Wysyłam…
+                      {t.sending}
                     </span>
                   ) : role === "firma" ? (
-                    "Zadzwońcie do mnie"
+                    t.submitFirma
                   ) : (
-                    "Pomóżcie mi znaleźć pracę"
+                    t.submitKand
                   )}
                 </button>
               </div>
@@ -391,29 +517,17 @@ export function LeadWizard() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-3xl font-extrabold text-fg mb-2">Gotowe!</h3>
+                  <h3 className="text-3xl font-extrabold text-fg mb-2">{t.successTitle}</h3>
                   <p className="text-fg-muted">
-                    {role === "firma"
-                      ? `Twoje zapytanie trafiło do opiekuna. Oddzwaniamy w ciągu 2 godzin w godzinach pracy.`
-                      : `Twoje zgłoszenie jest u naszego doradcy. Zadzwonimy z dopasowanymi ofertami.`}
+                    {role === "firma" ? t.successFirma : t.successKand}
                   </p>
                 </div>
               </div>
 
               {/* Timeline */}
               <div className="text-left space-y-4 max-w-sm mx-auto">
-                <p className="text-xs font-bold uppercase tracking-widest text-fg-faint mb-3">Co dalej?</p>
-                {(role === "firma" ? [
-                  { icon: "📞", time: "Do 2h",  text: "Opiekun dzwoni z pierwszymi pytaniami" },
-                  { icon: "👥", time: "24h",    text: "Przesyłamy dopasowanych kandydatów" },
-                  { icon: "📝", time: "3–5 dni", text: "Podpisujemy umowę i ustalamy warunki" },
-                  { icon: "✅", time: "7 dni",   text: "Pierwsi pracownicy zaczynają" },
-                ] : [
-                  { icon: "📞", time: "Do 2h",   text: "Doradca dzwoni z pytaniami o Ciebie" },
-                  { icon: "💼", time: "24h",     text: "Dostaniesz propozycje ofert pracy" },
-                  { icon: "🤝", time: "3–5 dni", text: "Pomagamy w rozmowie kwalifikacyjnej" },
-                  { icon: "🎉", time: "7 dni",   text: "Zaczynasz pracę" },
-                ]).map((item, i) => (
+                <p className="text-xs font-bold uppercase tracking-widest text-fg-faint mb-3">{t.whatNextLabel}</p>
+                {(role === "firma" ? t.firmaTimeline : t.kandTimeline).map((item, i) => (
                   <div key={i} className="flex items-start gap-4">
                     <div className="flex flex-col items-center gap-1 flex-shrink-0">
                       <span className="text-xl">{item.icon}</span>
@@ -428,7 +542,7 @@ export function LeadWizard() {
 
               {/* WhatsApp backup */}
               <div className="glass rounded-xl p-5 space-y-3">
-                <p className="text-sm text-fg-muted">Nie możesz czekać? Napisz do nas od razu:</p>
+                <p className="text-sm text-fg-muted">{t.whatsappText}</p>
                 <a
                   href="https://wa.me/48503090523?text=Dzień+dobry%2C+wysłałem+zapytanie+i+chciałem+potwierdzić"
                   target="_blank"
@@ -439,7 +553,7 @@ export function LeadWizard() {
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
                     <path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.562 4.14 1.542 5.874L.057 23.486a.5.5 0 00.614.614l5.612-1.485A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.5a9.45 9.45 0 01-4.886-1.36l-.35-.208-3.63.96.977-3.567-.228-.367A9.46 9.46 0 012.5 12c0-5.24 4.26-9.5 9.5-9.5s9.5 4.26 9.5 9.5-4.26 9.5-9.5 9.5z"/>
                   </svg>
-                  Napisz na WhatsApp
+                  {t.whatsappBtn}
                 </a>
               </div>
             </div>
@@ -450,9 +564,9 @@ export function LeadWizard() {
         {/* Trust bar */}
         {step < 3 && (
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-8 text-xs text-fg-faint">
-            <span>✅ KRAZ-certyfikowana agencja</span>
-            <span>🔒 Dane chronione zgodnie z RODO</span>
-            <span>📞 Odpowiedź w ciągu 2h</span>
+            <span>{t.trustKraz}</span>
+            <span>{t.trustRodo}</span>
+            <span>{t.trustReply}</span>
           </div>
         )}
       </div>

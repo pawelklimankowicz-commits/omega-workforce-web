@@ -286,7 +286,7 @@ export const T = {
     headingSuffix: { PL: "i opieką.",                      UA: "і підтримкою." },
     subB2B:        { PL: "Ukraińscy pracownicy to dziś kluczowy zasób dla polskich firm produkcyjnych i logistycznych. Przejmujemy najtrudniejszą część: legalizację, formalności urzędowe i codzienną opiekę. Ty dostajesz zmotywowany zespół gotowy od pierwszego dnia.",
                      UA: "Українські працівники сьогодні є ключовим ресурсом для польських виробничих і логістичних компаній. Ми беремо найскладнішу частину: легалізацію, офіційні формальності та щоденний догляд. Ви отримуєте мотивовану команду, готову з першого дня." },
-    candLabel:     { PL: "🇺🇦 Для kандидatów:",            UA: "🇺🇦 Для кандидатів:" },
+    candLabel:     { PL: "🇺🇦 Для кандидатів:",             UA: "🇺🇦 Для кандидатів:" },
     legalBadge:    { PL: "Zgodność z Ustawą o cudzoziemcach · KRAZ nr", UA: "Відповідність Закону про іноземців · KRAZ №" },
     ctaB2B:        { PL: "Zapytaj o pracowników z Ukrainy", UA: "Запитати про працівників з України" },
     ctaUA:         { PL: "Шукаю роботу в Польщі",          UA: "Шукаю роботу в Польщі" },
