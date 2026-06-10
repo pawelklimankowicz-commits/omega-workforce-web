@@ -39,11 +39,11 @@ const NAV: Record<UserRole, NavItem[]> = {
     { labelPL: "Ustawienia",   labelUA: "Налаштування",     href: "/dashboard/pracownik/ustawienia",    icon: <IconGear /> },
   ],
   admin: [
-    { labelPL: "Pulpit",      labelUA: "Пульт",      href: "/dashboard/admin",             icon: <IconGrid /> },
-    { labelPL: "Pracownik",   labelUA: "Працівник",  href: "/dashboard/admin#pracownik",   icon: <IconUsers /> },
-    { labelPL: "Firma",       labelUA: "Компанія",   href: "/dashboard/admin#firma",       icon: <IconChart /> },
-    { labelPL: "Uprawnienia", labelUA: "Права",      href: "/dashboard/admin#uprawnienia", icon: <IconDocs /> },
-    { labelPL: "Ustawienia",  labelUA: "Налаштування",href: "/dashboard/admin#ustawienia", icon: <IconGear /> },
+    { labelPL: "Pulpit",      labelUA: "Пульт",        href: "/dashboard/admin",                    icon: <IconGrid /> },
+    { labelPL: "Pracownik",   labelUA: "Працівник",    href: "/dashboard/admin?tab=pracownik",      icon: <IconUsers /> },
+    { labelPL: "Firma",       labelUA: "Компанія",     href: "/dashboard/admin?tab=firma",          icon: <IconChart /> },
+    { labelPL: "Uprawnienia", labelUA: "Права",        href: "/dashboard/admin?tab=uprawnienia",    icon: <IconDocs /> },
+    { labelPL: "Ustawienia",  labelUA: "Налаштування", href: "/dashboard/admin?tab=ustawienia",     icon: <IconGear /> },
   ],
 };
 
@@ -81,7 +81,12 @@ export function Sidebar({ role, userName, userEmail, onClose }: Props) {
       {/* Nav */}
       <div className="flex-1 py-4 px-3 space-y-0.5 overflow-y-auto">
         {nav.map(item => {
-          const active = pathname === item.href || (item.href !== `/dashboard/${role}` && pathname.startsWith(item.href));
+          const [itemPath, itemQuery] = item.href.split("?");
+          const itemParam = itemQuery ? new URLSearchParams(itemQuery).get("tab") : null;
+          const currentParam = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("tab") : null;
+          const active = itemParam
+            ? pathname === itemPath && currentParam === itemParam
+            : pathname === itemPath && !currentParam;
           const label  = role !== "firma" && lang === "UA" ? item.labelUA : item.labelPL;
           return (
             <Link key={item.href} href={item.href} onClick={() => onClose?.()}

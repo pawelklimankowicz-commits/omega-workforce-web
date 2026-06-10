@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { MOCK_USERS } from "@/lib/mock-users";
 
 const KONTA_TESTOWE = MOCK_USERS.filter(u => u.role !== "admin");
@@ -292,19 +293,20 @@ function TabUstawienia() {
   );
 }
 
-const ZAKŁADKI: { id: Zakladka; label: string }[] = [
-  { id: "pulpit",       label: "Pulpit" },
-  { id: "pracownik",    label: "Pracownik" },
-  { id: "firma",        label: "Firma" },
-  { id: "uprawnienia",  label: "Uprawnienia" },
-  { id: "ustawienia",   label: "Ustawienia" },
-];
-
-export default function AdminDashboard() {
-  const [tab, setTab] = useState<Zakladka>("pulpit");
+function AdminDashboardInner() {
+  const searchParams = useSearchParams();
+  const tab = (searchParams.get("tab") ?? "pulpit") as Zakladka;
 
   const pracownik = KONTA_TESTOWE.find(u => u.role === "pracownik")!;
   const firma     = KONTA_TESTOWE.find(u => u.role === "firma")!;
+
+  const PAGE_TITLES: Record<Zakladka, string> = {
+    pulpit:      "Panel Administratora",
+    pracownik:   "Konto: Pracownik",
+    firma:       "Konto: Firma",
+    uprawnienia: "Uprawnienia",
+    ustawienia:  "Ustawienia",
+  };
 
   const renderTab = () => {
     switch (tab) {
@@ -318,35 +320,19 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Nagłówek */}
       <div>
-        <h1 className="text-2xl font-black text-fg">Panel Administratora</h1>
+        <h1 className="text-2xl font-black text-fg">{PAGE_TITLES[tab]}</h1>
         <p className="text-sm text-fg-muted mt-1">Zarządzanie kontami testowymi i konfiguracją systemu</p>
       </div>
-
-      {/* Zakładki */}
-      <div className="border-b border-white/8">
-        <nav className="flex gap-1 -mb-px" role="tablist">
-          {ZAKŁADKI.map(z => (
-            <button
-              key={z.id}
-              role="tab"
-              aria-selected={tab === z.id}
-              onClick={() => setTab(z.id)}
-              className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-all ${
-                tab === z.id
-                  ? "border-accent text-accent"
-                  : "border-transparent text-fg-faint hover:text-fg hover:border-white/20"
-              }`}
-            >
-              {z.label}
-            </button>
-          ))}
-        </nav>
-      </div>
-
-      {/* Treść zakładki */}
-      <div>{renderTab()}</div>
+      {renderTab()}
     </div>
+  );
+}
+
+export default function AdminDashboard() {
+  return (
+    <Suspense>
+      <AdminDashboardInner />
+    </Suspense>
   );
 }
