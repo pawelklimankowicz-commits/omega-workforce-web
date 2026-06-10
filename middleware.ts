@@ -52,6 +52,14 @@ export function middleware(request: NextRequest) {
     if (pathname.startsWith("/dashboard/pracownik") && session.role === "firma") {
       return NextResponse.redirect(new URL("/dashboard/firma", request.url));
     }
+    // Admin ma dostęp tylko do /dashboard/admin
+    if (!pathname.startsWith("/dashboard/admin") && session.role === "admin") {
+      return NextResponse.redirect(new URL("/dashboard/admin", request.url));
+    }
+    if (pathname.startsWith("/dashboard/admin") && session.role !== "admin") {
+      const dest = session.role === "pracownik" ? "/dashboard/pracownik" : "/dashboard/firma";
+      return NextResponse.redirect(new URL(dest, request.url));
+    }
   }
 
   // ── Redirect zalogowanego użytkownika z /login ────────────────────────────
@@ -63,7 +71,7 @@ export function middleware(request: NextRequest) {
         const s     = JSON.parse(raw);
         if (s.expiresAt > Date.now()) {
           return NextResponse.redirect(
-            new URL(`/dashboard/${s.role === "admin" ? "firma" : s.role}`, request.url)
+            new URL(`/dashboard/${s.role}`, request.url)
           );
         }
       } catch { /* ignoruj */ }

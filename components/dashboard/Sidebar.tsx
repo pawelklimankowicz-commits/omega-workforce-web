@@ -39,8 +39,11 @@ const NAV: Record<UserRole, NavItem[]> = {
     { labelPL: "Ustawienia",   labelUA: "Налаштування",     href: "/dashboard/pracownik/ustawienia",    icon: <IconGear /> },
   ],
   admin: [
-    { labelPL: "Dashboard", labelUA: "Дашборд", href: "/dashboard/firma",            icon: <IconGrid /> },
-    { labelPL: "Firma",     labelUA: "Компанія", href: "/dashboard/firma/pracownicy", icon: <IconUsers /> },
+    { labelPL: "Pulpit",      labelUA: "Пульт",      href: "/dashboard/admin",             icon: <IconGrid /> },
+    { labelPL: "Pracownik",   labelUA: "Працівник",  href: "/dashboard/admin#pracownik",   icon: <IconUsers /> },
+    { labelPL: "Firma",       labelUA: "Компанія",   href: "/dashboard/admin#firma",       icon: <IconChart /> },
+    { labelPL: "Uprawnienia", labelUA: "Права",      href: "/dashboard/admin#uprawnienia", icon: <IconDocs /> },
+    { labelPL: "Ustawienia",  labelUA: "Налаштування",href: "/dashboard/admin#ustawienia", icon: <IconGear /> },
   ],
 };
 
