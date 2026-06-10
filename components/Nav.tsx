@@ -99,15 +99,15 @@ export function Nav() {
             <a href="#kandydaci" className="btn-ghost !py-2 !px-4 !text-[13px]">
               {t(T.nav.lookingJob, lang)}
             </a>
+            <a href="#kontakt" className="btn-primary !py-2 !px-5 !text-[13px]">
+              {t(T.nav.freeQuote, lang)}
+            </a>
             <a href="/login"
               className="inline-flex items-center gap-1.5 rounded-xl border border-white/[0.12] bg-white/[0.04] px-4 py-2 text-[13px] font-semibold text-fg-muted transition-all hover:text-fg hover:border-white/25 hover:bg-white/[0.08]">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden>
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
               </svg>
               {t(T.nav.panel, lang)}
-            </a>
-            <a href="#kontakt" className="btn-primary !py-2 !px-5 !text-[13px]">
-              {t(T.nav.freeQuote, lang)}
             </a>
           </div>
 
